@@ -1,5 +1,5 @@
 function Attack(x,y,dir){
-    this.x = x-30;
+    this.x = x-300;
     this.y = y+30;
     this.r = 5;
     this.movement_speed = 15;
