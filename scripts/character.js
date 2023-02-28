@@ -64,23 +64,35 @@ function Character(id=""){
         image(img,x,y); //can resize the character image(img,x,y,width,height)
     }
 
-    this.moveLeft = function (){
-        this.x -= this.movement_speed;
+    this.moveLeft = function (enemies){
+        enemies.map((enemy)=>{
+            enemy.x += this.movement_speed;
+        })
+        //this.x -= this.movement_speed;
         this.direction='l';
         this.change_frames();
     }
     this.moveUp = function (){
-        this.y -= this.movement_speed;
+        enemies.map((enemy)=>{
+            enemy.y += this.movement_speed;
+        })
+        //this.y -= this.movement_speed;
         this.direction='u';
         this.change_frames();
     }
     this.moveRight = function (){
-        this.x += this.movement_speed;
+        enemies.map((enemy)=>{
+            enemy.x -= this.movement_speed;
+        })
+        //this.x += this.movement_speed;
         this.direction='r';
         this.change_frames();
     }
     this.moveDown = function (){
-        this.y += this.movement_speed;
+        enemies.map((enemy)=>{
+            enemy.y -= this.movement_speed;
+        })
+        //this.y += this.movement_speed;
         this.direction='d';
         this.change_frames();
 

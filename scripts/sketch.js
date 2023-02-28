@@ -97,26 +97,27 @@ function draw(){
     }
     
         if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){ //68 is d in wasd
-            plyr.moveRight();
+            //Pass enemies array to function to modify it's x and y value
+            plyr.moveRight(enemies);
             img = plyr.images_right;
             onlinePlayer.info.x = plyr.x;
             onlinePlayer.info.y = plyr.y;
             // updatePlayer(playerObj);           
         } else  if (keyIsDown(LEFT_ARROW)|| keyIsDown(65)){
-            plyr.moveLeft();
+            plyr.moveLeft(enemies);
             img = plyr.images_left;
             onlinePlayer.info.x = plyr.x;
             onlinePlayer.info.y = plyr.y;
             // updatePlayer(playerObj);
         } else  if (keyIsDown(UP_ARROW) || keyIsDown(87)){
-            plyr.moveUp();
+            plyr.moveUp(enemies);
             img = plyr.images_back;
             onlinePlayer.info.x = plyr.x;
             onlinePlayer.info.y = plyr.y;
             // updatePlayer(playerObj);
         } else  if (keyIsDown(DOWN_ARROW)|| keyIsDown(83)){
             img = plyr.images_front;
-            plyr.moveDown();
+            plyr.moveDown(enemies);
             onlinePlayer.info.x = plyr.x;
             onlinePlayer.info.y = plyr.y;
             // updatePlayer(playerObj);
