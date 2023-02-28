@@ -83,7 +83,7 @@ function Attack(x,y,dir,finalx=0,finaly=0, mouse=false){ //remove dir and mouse 
 
                 if (xReached1==true && xReached2==true){
                     this.toDelete=true;
-                    console.log(mouseX,mouseY);
+                    
                 }
                 
                 

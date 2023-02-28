@@ -53,7 +53,6 @@ function Character(id=""){
             // reset frame timer
             time = 0;
             // console.log(frameToShow);
-
             // this.img=image(direction[frameToShow], this.x,this.y);
           }
           time++;
