@@ -1,7 +1,9 @@
-function Character(){
+function Character(id=""){
+    this.id = "";
     this.x =0;
     this.y =0;
-    this.movement_speed = 3; 
+    this.movement_speed = 5;
+    this.default_speed = this.movement_speed; 
     this.direction = 'r'; //'l' is left 'r' is right 'u' and 'd' is up and down 
     this.img;
 
@@ -16,8 +18,7 @@ function Character(){
         //in the front folder select all and rename all to front do this for other folders
 
         for (let i=1;i<no_of_frames+1;i++){
-            this.images_back[i-1]=loadImage(`${path}/back/back (${i}).png`)
-            
+            this.images_back[i-1]=loadImage(`${path}/back/back (${i}).png`)  
         }
         for (let i=1;i<no_of_frames+1;i++){
             this.images_front[i-1]=loadImage(`${path}/front/front (${i}).png`)
@@ -61,7 +62,7 @@ function Character(){
     }
 
     this.show = function(img, x=this.x,y=this.y){
-        image(img,x,y);
+        image(img,x,y); //can resize the character image(img,x,y,width,height)
     }
 
     this.moveLeft = function (){

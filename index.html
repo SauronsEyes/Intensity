@@ -11,10 +11,30 @@
     </style>
 </head>
 <body>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script>
+      // Using firebase v8 becasue v9 is completely different from what i was used to
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyAYa1w_EdHlnx3A8NW6Dmyh2zQAXIGhM9E",
+        authDomain: "multiplayer-demo-94d36.firebaseapp.com",
+        databaseURL: "https://multiplayer-demo-94d36-default-rtdb.firebaseio.com",
+        projectId: "multiplayer-demo-94d36",
+        storageBucket: "multiplayer-demo-94d36.appspot.com",
+        messagingSenderId: "827286846339",
+        appId: "1:827286846339:web:b6564865d392636807d4b6"
+      };
+    
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
    <script src="scripts/sketch.js"></script>
    <script src="scripts/character.js"></script>
    <script src="scripts/enemy.js"></script>
    <script src="scripts/attack.js"></script>
+   <script src="scripts/server.js"></script>
    
 </body>
 </html>
