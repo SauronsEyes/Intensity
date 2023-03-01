@@ -4,6 +4,7 @@ var enemy;
 var enemies = [];
 var attacks = [];
 var img=[];
+var bullet_sound;
 var frameToShow=0; //do not attempt to change this variable
 //frame to show variable will be channged in plyr.js to make the character when key is pressed
 
@@ -18,6 +19,7 @@ function preload(){
      plyr.x=300;
      plyr.y=300;
 
+     bullet_sound = loadSound('assets/sound/gunshot.mp3');
      enemy = loadImage("assets/enemy/idle/enemy (1).png"); 
     }
 
@@ -128,6 +130,10 @@ function keyReleased(){
 }
 
 function mousePressed(){
+     
+        bullet_sound.play();
+        
+    
     cameraShake(10,30);
     var attack = new Attack(plyr.x+60,plyr.y+20, plyr.direction, mouseX, mouseY, true);
         attacks.push(attack);
@@ -137,6 +143,11 @@ function mousePressed(){
 
 function mouseReleased(){
     frameToShow = 0;
+    if (bullet_sound.isPlaying()) {
+        // .isPlaying() returns a boolean
+        // bullet_sound.stop();
+        
+      }
 }
 
 function keyPressed(){
