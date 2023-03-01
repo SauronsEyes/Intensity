@@ -5,6 +5,7 @@ function Enemy(x,y){
     this.images;
     this.xDir=1;
     this.yDir=0;
+    this.movement_speed = 3;
     this.init_images= function(path, no_of_frames){
         //place this function in the preload function
 
@@ -26,7 +27,22 @@ function Enemy(x,y){
     }
 
     this.move= function(){
-        this.x = this.x + this.xDir ;
-        this.y = this.y + this.yDir ;
+        let delta_x = plyr.x- this.x
+        let delta_y = plyr.y - this.y
+        let dist = sqrt( (delta_x * delta_x) + (delta_y * delta_y) ) //using distance formula
+        if (dist > this.movement_speed)
+        {
+            let ratio = this.movement_speed / dist
+            let x_move = ratio * delta_x   //the ratio by which x should increase
+            let y_move = ratio * delta_y //the ratio by which y should increase
+            this.x = x_move + this.x 
+            this.y = y_move + this.y
+        }
+        else
+        {   
+            this.x = plyr.x
+            this.y = plyr.y
+           
+        }
     }
 }

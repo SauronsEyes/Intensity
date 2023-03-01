@@ -36,8 +36,8 @@ function setup(){
     }
 
     attack = new Attack(width/2+30,attack_height_pos);
-    for (let i=0;i<2;i++){
-        enemies[i] = new Enemy(i*300+300,20); 
+    for (let i=0;i<20;i++){
+        enemies[i] = new Enemy(Math.random()*800+300,Math.random()*1920); 
    }
 }
 
@@ -68,14 +68,7 @@ function draw(){
         }
     }
 
-    if (edge){
-    for (let i=0;i<enemies.length;i++){
-
-        enemies[i].xDir *= -1; //change direction
-        enemies[i].y += enemies[i].r;
-        }
-        edge= false;
-    }
+    
 
    for (let i=0;i<attacks.length;i++){
             attacks[i].show();
@@ -135,6 +128,7 @@ function keyReleased(){
 }
 
 function mousePressed(){
+    cameraShake(10,30);
     var attack = new Attack(plyr.x+60,plyr.y+20, plyr.direction, mouseX, mouseY, true);
         attacks.push(attack);
         plyr.change_frames(true);
