@@ -6,7 +6,7 @@ function Attack(x,y,dir,finalx=0,finaly=0, mouse=false){ //remove dir and mouse 
     this.endX = finalx;
     this.endY = finaly;
 
-    this.movement_speed = 15;
+    this.movement_speed = 30;
     this.toDelete = false;
 
     this.calc_trajectory=function(){
@@ -40,10 +40,8 @@ function Attack(x,y,dir,finalx=0,finaly=0, mouse=false){ //remove dir and mouse 
 
     }
 
-    let xReached1 = false; //when both of these variables are true then the bullet dissappears
-    let xReached2 = false; //when both of these variables are true then the bullet dissappears
-
     this.move = function(){
+        
         if (!mouse){ 
             if (dir=="u"){
                 this.y = this.y -this.movement_speed ;
@@ -59,38 +57,25 @@ function Attack(x,y,dir,finalx=0,finaly=0, mouse=false){ //remove dir and mouse 
             }}
         
         if (mouse){
-            let m = (this.y-this.endY)/(this.x-this.endX); //the slope of the line  
-            //now the equation y-y1=m(x-x1)
-            let initX = this.x; //initialX
-            let initY= this.y;//initialY
             
-            
-            // while(this.x<this.endX & this.y<this.endY){
-                if (this.x<this.endX){
-                    this.x +=this.movement_speed;
-                    xReached1 = true;
-                } else if (this.x>this.endX){
-                    this.x -=this.movement_speed;
-                    xReached2 = true;
-                } else {
-                    xReached1 = true;
-                    xReached2 = true;
+                let delta_x = this.endX - this.x
+                let delta_y = this.endY - this.y
+                let dist = sqrt( (delta_x * delta_x) + (delta_y * delta_y) ) //using distance formula
+                if (dist > this.movement_speed)
+                {
+                    let ratio = this.movement_speed / dist
+                    let x_move = ratio * delta_x   //the ratio by which x should increase
+                    let y_move = ratio * delta_y //the ratio by which y should increase
+                    this.x = x_move + this.x 
+                    this.y = y_move + this.y
                 }
-
-                if (this.y!=this.endY){
-                    this.y = m*(this.x-initX)+initY;
-                } 
-
-                if (xReached1==true && xReached2==true){
-                    this.toDelete=true;
-                    
+                else
+                {   
+                    this.x = this.endx 
+                    this.y = this.endY
+                    this.evaporate();
                 }
-                
-                
-                    
-                
             // } 
-            
         }
         
     }
