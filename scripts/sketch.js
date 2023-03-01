@@ -42,7 +42,12 @@ function setup(){
         enemies[i] = new Enemy(Math.random()*800+300,Math.random()*1920); 
    }
 }
-
+function sortEnemy()
+{
+    enemies = enemies.sort(
+        (e1, e2) => (e1.y >e2.y) ? 1 : (e1.y < e2.y) ? -1 : 0);
+    
+}
 function draw(){
     var playerId = false;
     let playerObj = {};
@@ -55,19 +60,34 @@ function draw(){
          playerObj =onlinePlayer.info;
     }
     
-    background(51);
+    background(20);
+    let playerRendered = false;
+    sortEnemy();
     
     if (connected)
     {
-        plyr.show(img[frameToShow],plyr.x,plyr.y);
+        
         var edge = false;
     for (let i=0;i<enemies.length;i++){
+        
+        if(plyr.y < enemies[i].y +90 && !playerRendered)
+        {
+            playerRendered = true;
+            plyr.show(img[frameToShow],plyr.x,plyr.y);
+        }  
+        
         enemies[i].show(enemy);
         enemies[i].move();
-
+        
         if (enemies[i].x+350>width || enemies[i].x-100<0){
             edge = true;
         }
+    }
+   
+    if(!playerRendered)
+    {
+        
+        plyr.show(img[frameToShow],plyr.x,plyr.y);  
     }
 
     
