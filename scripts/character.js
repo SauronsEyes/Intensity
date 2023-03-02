@@ -64,34 +64,47 @@ function Character(id=""){
         image(img,x,y); //can resize the character image(img,x,y,width,height)
     }
 
-    this.moveLeft = function (enemies){
+    this.moveLeft = function (){
+        //check if next movement will result in collision if not then only move the map and enemy
+        if (!(bgImage.check_collision(bgImage.x+ this.movement_speed, bgImage.y))){
         enemies.map((enemy)=>{
             enemy.x += this.movement_speed;
         })
+        bgImage.x += this.movement_speed;}
         //this.x -= this.movement_speed;
+        
         this.direction='l';
         this.change_frames();
+        
     }
     this.moveUp = function (){
+        if (!(bgImage.check_collision(bgImage.x,bgImage.y + this.movement_speed))){  
         enemies.map((enemy)=>{
             enemy.y += this.movement_speed;
         })
+        bgImage.y += this.movement_speed
+    }
         //this.y -= this.movement_speed;
         this.direction='u';
         this.change_frames();
     }
     this.moveRight = function (){
+        if (!(bgImage.check_collision(bgImage.x- this.movement_speed, bgImage.y))){
         enemies.map((enemy)=>{
             enemy.x -= this.movement_speed;
         })
+        bgImage.x -= this.movement_speed;
+    }
         //this.x += this.movement_speed;
         this.direction='r';
         this.change_frames();
     }
     this.moveDown = function (){
+        if (!(bgImage.check_collision(bgImage.x,bgImage.y - this.movement_speed))){
         enemies.map((enemy)=>{
             enemy.y -= this.movement_speed;
         })
+        bgImage.y -= this.movement_speed;}
         //this.y += this.movement_speed;
         this.direction='d';
         this.change_frames();

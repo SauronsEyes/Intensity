@@ -6,7 +6,7 @@ function Attack(x,y,dir,finalx=0,finaly=0, mouse=false){ //remove dir and mouse 
     this.endX = finalx;
     this.endY = finaly;
 
-    this.movement_speed = 30;
+    this.movement_speed = 15;
     this.toDelete = false;
 
     this.calc_trajectory=function(){
@@ -18,11 +18,18 @@ function Attack(x,y,dir,finalx=0,finaly=0, mouse=false){ //remove dir and mouse 
     this.show = function(){
         noStroke();
         fill(236,165,0);
+        // fill(255,255,255);
         ellipse(this.x, this.y,this.r*2,this.r*2);
         fill(255, 170, 51,4);
-        for(i = 0; i < this.r*3; i++){
+        
+
+        for(i = 0; i < this.r*10; i++){
             ellipse(this.x,this.y, i*3);
           }
+        
+          if (bgImage.check_collision(this.x,this.y)){
+            console.log("hhello");
+        }
     }
 
     this.hits = function(flower){
@@ -75,6 +82,8 @@ function Attack(x,y,dir,finalx=0,finaly=0, mouse=false){ //remove dir and mouse 
                     this.y = this.endY
                     this.evaporate();
                 }
+
+                
             // } 
         }
         

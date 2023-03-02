@@ -9,7 +9,7 @@ function cameraShake(intensity,shakes)
     {
         setTimeout(()=>{
             
-            console.log(shakeShiftX,shakeShiftY);   
+            // console.log(shakeShiftX,shakeShiftY);   
             if(i%2 == 1)
             {
                 shakeShiftX = -shakeShiftX;
@@ -26,6 +26,8 @@ function cameraShake(intensity,shakes)
                 enemy.x +=shakeShiftX;
                 enemy.y += shakeShiftY;
             })
+            bgImage.x += shakeShiftX;
+            bgImage.y += shakeShiftY;
 
         },5*i)
         

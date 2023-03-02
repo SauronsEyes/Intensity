@@ -1,14 +1,15 @@
 var plyr;
 let connected = false;
 var enemy;
-var enemies = [];
+var enemies = []; // do not change this variable
 var attacks = [];
 var img=[];
 var bullet_sound;
 var frameToShow=0; //do not attempt to change this variable
 //frame to show variable will be channged in plyr.js to make the character when key is pressed
-
-let bg;
+let no_of_enemies = 00;
+let bgImage;//do not change this variaable
+let crosshair_image;
 
 
 function preload(){
@@ -16,11 +17,15 @@ function preload(){
      plyr.init_images("assets/character/images",4);
      img = plyr.images_right;//starting image direction
      plyr.direction = 'r'; //.direction is needed for projectile direction when pressing space
-     plyr.x=300;
-     plyr.y=300;
+     plyr.x=windowWidth/2;
+     plyr.y=windowHeight/2;
 
      bullet_sound = loadSound('assets/sound/gunshot.mp3');
      enemy = loadImage("assets/enemy/idle/enemy (1).png"); 
+     bgImage = new Map("../bg.jpg",0,0,windowHeight/2,windowWidth/2);
+     bgImage.init()
+     crosshair_image = loadImage("assets/crosshair.png"); 
+
     }
 
 function setup(){
@@ -28,19 +33,21 @@ function setup(){
     // connectPlayer();
     // livePlayersInfo();
     // livePlayersConnection();
+    noCursor();
     
     createCanvas(windowWidth, windowHeight);
     createCanvas(windowWidth, windowHeight);
+    
     let attack_width_pos=width/2+30;
     let attack_height_pos = height;
     if (plyr.direction=='u'){
         attack_height_pos = height+20;
     }
-
     attack = new Attack(width/2+30,attack_height_pos);
-    for (let i=0;i<20;i++){
+    for (let i=0;i<no_of_enemies;i++){
         enemies[i] = new Enemy(Math.random()*800+300,Math.random()*1920); 
-   }
+    }
+    // ellipse(mouseX, mouseY, 10, 10);
 }
 function sortEnemy()
 {
@@ -60,13 +67,17 @@ function draw(){
          playerObj =onlinePlayer.info;
     }
     
-    background(20);
+    // background(bg);
+    // background(50);
+    background(51);
+    bgImage.show();
+    bgImage.activate_colliders(bgImage.x,bgImage.y);
+    
     let playerRendered = false;
     sortEnemy();
     
     if (connected)
     {
-        
         var edge = false;
     for (let i=0;i<enemies.length;i++){
         
@@ -97,11 +108,8 @@ function draw(){
             attacks[i].move();
             for (let j=0;j<enemies.length;j++){
                 if (attacks[i].hits(enemies[j])){
-                    // enemies[j].grow();
                     enemies.splice(j,1);
                     attacks[i].evaporate();
-                    console.log("Killed");
-                    console.log("attack end",mouseX,mouseY);
                 }
             }
     }
@@ -140,8 +148,14 @@ function draw(){
         if (keyIsDown(SHIFT)){
                 plyr.movement_speed = 10;
         }
+        
+            console.log(bgImage.x, bgImage.y);
+        
     }
     // console.log(winMouseX, winMouseY);
+    image(crosshair_image, mouseX-25,mouseY-25, 50,50);
+    // ellipse(mouseX,mouseY, 50,50);
+
 }
 
 function keyReleased(){
@@ -161,6 +175,16 @@ function mousePressed(){
         console.log("attack start",plyr.x,plyr.y);
 }
 
+function mouseDragged(){
+    //for machine gun
+    // bullet_sound.play();
+    // cameraShake(10,30);
+    // var attack = new Attack(plyr.x+60,plyr.y+20, plyr.direction, mouseX, mouseY, true);
+    //     attacks.push(attack);
+    //     plyr.change_frames(true);
+    //     console.log("attack start",plyr.x,plyr.y);
+}
+
 function mouseReleased(){
     frameToShow = 0;
     if (bullet_sound.isPlaying()) {
@@ -170,7 +194,9 @@ function mouseReleased(){
       }
 }
 
+
 function keyPressed(){
+    
     if (key===" "){
         var attack = new Attack(plyr.x+60,plyr.y+20, plyr.direction);
         attacks.push(attack);

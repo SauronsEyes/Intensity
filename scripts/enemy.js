@@ -1,14 +1,15 @@
 function Enemy(x,y){
+    //Problem: when enemy is at the leftmost side of the screen enemy does not move
     this.x = x;
     this.y = y;
     this.r=40;
     this.images;
     this.xDir=1;
     this.yDir=0;
-    this.movement_speed = Math.random() *4;
+    this.movement_speed = Math.random() *2 + 2;
     let finalX = plyr.x+Math.floor((2*Math.random()-1)*40)-80;
         
-        let finalY = plyr.y+Math.floor((2*Math.random()-1)*40)-80 ;
+    let finalY = plyr.y+Math.floor((2*Math.random()-1)*40)-80 ;
     this.init_images= function(path, no_of_frames){
         //place this function in the preload function
 
@@ -52,7 +53,7 @@ function Enemy(x,y){
             }
             if(this.x == finalX && this.y == finalY)
             {
-                cameraShake(10,20);
+                cameraShake(8,20);
             }
         }
     }
