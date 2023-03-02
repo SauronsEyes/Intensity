@@ -36,7 +36,7 @@ function Character(id=""){
     this.change_frames=function(hit=false){
         //for this function to work create a frameToShow variable that changes the image in draw function
         //need to pass the frame to show variable by reference
-        let frameSpeed = 5;
+        let frameSpeed = 10;
         if (hit){
             frameSpeed=0;
         }
@@ -61,7 +61,11 @@ function Character(id=""){
     }
 
     this.show = function(img, x=this.x,y=this.y){
+        noStroke();
+        fill(20, 20, 20,200);
+        ellipse(this.x+20,this.y+70, 40,20);
         image(img,x,y); //can resize the character image(img,x,y,width,height)
+
     }
 
     this.moveLeft = function (){

@@ -3,7 +3,7 @@ function Enemy(x,y){
     this.x = x;
     this.y = y;
     this.r=40;
-    this.images;
+    this.images=[];
     this.xDir=1;
     this.yDir=0;
 
@@ -15,11 +15,12 @@ function Enemy(x,y){
     let finalX = plyr.x+Math.floor((2*Math.random()-1)*40)-80;
         
     let finalY = plyr.y+Math.floor((2*Math.random()-1)*40)-80 ;
-    this.init_images= function(path, no_of_frames){
+    this.init_images = function(path="assets/enemy/idle/", no_of_frames = 12 ){
         //place this function in the preload function
 
-        for (let i=1;i<no_of_frames+1;i++){
-            this.images[i-1]=loadImage(`${path}/enemy (${i}).png`)
+        for (let i=0;i<no_of_frames;i++){
+            
+            this.images[i]=loadImage(`assets/enemy/idle/enemy (${i+1}).png`)
         }
         
    

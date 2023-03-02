@@ -22,7 +22,7 @@ function Attack(x,y,dir,finalx=0,finaly=0, mouse=false){ //remove dir and mouse 
         // fill(255,255,255);
         ellipse(this.x, this.y,this.r*2,this.r*2);
         fill(255, 170, 51,4);
-        
+        // fill(220,220,220,4);
 
         for(i = 0; i < this.r*10; i++){
             ellipse(this.x,this.y, i*3);
@@ -81,6 +81,7 @@ function Attack(x,y,dir,finalx=0,finaly=0, mouse=false){ //remove dir and mouse 
                 {   
                     this.x = this.endx 
                     this.y = this.endY
+                    
                     this.evaporate();
                 }
 
