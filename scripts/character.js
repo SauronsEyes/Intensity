@@ -62,8 +62,8 @@ function Character(id=""){
 
     this.show = function(img, x=this.x,y=this.y){
         noStroke();
-        fill(20, 20, 20,200);
-        ellipse(this.x+20,this.y+70, 40,20);
+        fill(20, 20, 20,150);
+        ellipse(this.x+20,this.y+70, 30,15);
         image(img,x,y); //can resize the character image(img,x,y,width,height)
 
     }

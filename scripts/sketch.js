@@ -8,7 +8,7 @@ var bullet_sound;
 var walk_sound;
 var frameToShow=0; //do not attempt to change this variable
 //frame to show variable will be channged in plyr.js to make the character when key is pressed
-let no_of_enemies = 0;
+let no_of_enemies = 3;
 let bgImage;//do not change this variaable
 let crosshair_image;
 let collect_colliders = [{x:0,y:0,w:0,h:0}];
@@ -186,6 +186,7 @@ function draw(){
         }
         if (keyIsDown(SHIFT)){
                 plyr.movement_speed = 10;
+                
         }
         
             // console.log(bgImage.x, bgImage.y);
@@ -251,12 +252,12 @@ function keyPressed(){
 
     if (key=="q"){
         if (collect_colliders.at(-1).x==0 && collect_colliders.at(-1).y==0){
-            collect_colliders.at(-1).x = bgImage.x;
-            collect_colliders.at(-1).y = bgImage.y; 
+            collect_colliders.at(-1).x = bgImage.x - adjustDeviceColliderX;
+            collect_colliders.at(-1).y = bgImage.y - adjustDeviceColliderY; 
             console.log(collect_colliders.at(-1));
         } else {
-            collect_colliders.at(-1).w = bgImage.x;
-            collect_colliders.at(-1).h = bgImage.y;
+            collect_colliders.at(-1).w = bgImage.x - adjustDeviceColliderX;
+            collect_colliders.at(-1).h = bgImage.y - adjustDeviceColliderY;
             console.log(collect_colliders.at(-1));
             let colors =["red","blue","green","pink","yellow"]
             if (debug_colliders){
@@ -276,6 +277,12 @@ function keyPressed(){
         console.log(collect_colliders.at(-1));
         collect_colliders.push({x:0,y:0,w:0,h:0})
     }
+
+    if (key=="z"){
+        console.log(bgImage.x,bgImage.y);
+        
+    }
+    
 }
 
 

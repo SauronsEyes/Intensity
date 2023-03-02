@@ -7,8 +7,8 @@ function Enemy(x,y){
     this.xDir=1;
     this.yDir=0;
 
-    const MAX_HEALTH = 15;
-    const MIN_HEALTH = 8;
+    const MAX_HEALTH = 30;
+    const MIN_HEALTH = 20;
     this.health = Math.random() * (MAX_HEALTH - MIN_HEALTH) + MIN_HEALTH;
 
     this.movement_speed = Math.random() *2 + 2;

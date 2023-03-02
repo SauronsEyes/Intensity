@@ -24,10 +24,7 @@ function Map(imgname, x = 0, y = 0, width = 0, height = 0) {
     }
 
     this.check_collision = function (X, Y) {
-        let adjustDeviceColliderX = (windowWidth-nativeWidth)/2;
-        let adjustDeviceColliderY = (windowHeight-nativeHeight)/2;
-
-
+        
         let has_collided = [false];
         let counter = 0;
         this.saved_settings["current_map"].colliders.map((collider) => {
@@ -38,10 +35,7 @@ function Map(imgname, x = 0, y = 0, width = 0, height = 0) {
             }
             // if (X < collider.x && X > collider.w && Y < collider.y && Y > collider.h) {
             if (X-(adjustDeviceColliderX) < collider.x && X-(adjustDeviceColliderX) > collider.w && Y-(adjustDeviceColliderY) < collider.y && Y-(adjustDeviceColliderY) > collider.h) {
-
-                
-                has_collided.push(true);
-
+               has_collided.push(true);
             } else {
                 has_collided.push(false);
             }
