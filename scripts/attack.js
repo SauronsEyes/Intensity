@@ -1,3 +1,4 @@
+
 function Attack(x,y,dir,finalx=0,finaly=0, mouse=false){ //remove dir and mouse after mouse works
     this.x = x-30;
     this.y = y+30;
@@ -6,7 +7,7 @@ function Attack(x,y,dir,finalx=0,finaly=0, mouse=false){ //remove dir and mouse 
     this.endX = finalx;
     this.endY = finaly;
 
-    this.movement_speed = 15;
+    this.movement_speed = 30;
     this.toDelete = false;
 
     this.calc_trajectory=function(){

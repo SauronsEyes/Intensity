@@ -7,9 +7,11 @@ var img=[];
 var bullet_sound;
 var frameToShow=0; //do not attempt to change this variable
 //frame to show variable will be channged in plyr.js to make the character when key is pressed
-let no_of_enemies = 00;
+let no_of_enemies = 10;
 let bgImage;//do not change this variaable
 let crosshair_image;
+let collect_colliders = [{x:0,y:0,w:0,h:0}];
+
 
 
 function preload(){
@@ -22,18 +24,21 @@ function preload(){
 
      bullet_sound = loadSound('assets/sound/gunshot.mp3');
      enemy = loadImage("assets/enemy/idle/enemy (1).png"); 
-     bgImage = new Map("../bg.jpg",0,0,windowHeight/2,windowWidth/2);
+     bgImage = new Map("map_main.jpg",0,0);
      bgImage.init()
      crosshair_image = loadImage("assets/crosshair.png"); 
 
     }
 
 function setup(){
+
+    
     // not connecting to firebase at the moment
     // connectPlayer();
     // livePlayersInfo();
     // livePlayersConnection();
     noCursor();
+    
     
     createCanvas(windowWidth, windowHeight);
     createCanvas(windowWidth, windowHeight);
@@ -56,9 +61,14 @@ function sortEnemy()
     
 }
 function draw(){
+    connected = true;//not connecting to firebase at the moment
+    $(window).blur(function() {
+        console.log("inactive Window")
+        connected = false;
+    });
     var playerId = false;
     let playerObj = {};
-    connected = true;//not connecting to firebase at the moment
+    
     
     if (getPlayerId()!="")
     {
@@ -70,14 +80,15 @@ function draw(){
     // background(bg);
     // background(50);
     background(51);
+    if (connected)
+    {
     bgImage.show();
     bgImage.activate_colliders(bgImage.x,bgImage.y);
     
     let playerRendered = false;
     sortEnemy();
     
-    if (connected)
-    {
+    
         var edge = false;
     for (let i=0;i<enemies.length;i++){
         
@@ -108,7 +119,11 @@ function draw(){
             attacks[i].move();
             for (let j=0;j<enemies.length;j++){
                 if (attacks[i].hits(enemies[j])){
-                    enemies.splice(j,1);
+                    enemies[j].health-=1;
+                    if (enemies[j].health<1){
+                        enemies.splice(j,1);
+                        
+                    } 
                     attacks[i].evaporate();
                 }
             }
@@ -149,7 +164,7 @@ function draw(){
                 plyr.movement_speed = 10;
         }
         
-            console.log(bgImage.x, bgImage.y);
+            // console.log(bgImage.x, bgImage.y);
         
     }
     // console.log(winMouseX, winMouseY);
@@ -172,7 +187,7 @@ function mousePressed(){
     var attack = new Attack(plyr.x+60,plyr.y+20, plyr.direction, mouseX, mouseY, true);
         attacks.push(attack);
         plyr.change_frames(true);
-        console.log("attack start",plyr.x,plyr.y);
+        // console.log("attack start",plyr.x,plyr.y);
 }
 
 function mouseDragged(){
@@ -201,6 +216,28 @@ function keyPressed(){
         var attack = new Attack(plyr.x+60,plyr.y+20, plyr.direction);
         attacks.push(attack);
         plyr.change_frames(true);
+    }
+
+    if (key=="q"){
+        if (collect_colliders.at(-1).x==0 && collect_colliders.at(-1).y==0){
+            collect_colliders.at(-1).x = bgImage.x;
+            collect_colliders.at(-1).y = bgImage.y; 
+            console.log(collect_colliders.at(-1));
+        } else {
+            collect_colliders.at(-1).w = bgImage.x;
+            collect_colliders.at(-1).h = bgImage.y;
+            console.log(collect_colliders.at(-1));
+            bgImage.saved_settings["current_map"].colliders.push(collect_colliders.at(-1));
+            collect_colliders.push({x:0,y:0,w:0,h:0})
+            
+        }
+    }
+    if (key=="e" && collect_colliders.length>=2){
+        collect_colliders.pop()
+        if (!(collect_colliders.at(-1).w==0 && collect_colliders.at(-1).h==0)){
+        bgImage.saved_settings["current_map"].colliders.pop();}
+        console.log(collect_colliders.at(-1));
+        collect_colliders.push({x:0,y:0,w:0,h:0})
     }
 }
 
