@@ -6,6 +6,8 @@ function Animate(frames_array,animation_speed = 5){
     let no_of_frames = frames_array.length;
     let frameIndex = 0;
     let time=0;    
+
+    
     
     this.change_frames=function(hit=false){
         //for this function to work create a frameToShow variable that changes the image in draw function

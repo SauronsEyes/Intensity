@@ -28,10 +28,10 @@ function Map(imgname, x = 0, y = 0, width = 0, height = 0) {
         let has_collided = [false];
         let counter = 0;
         this.saved_settings["current_map"].colliders.map((collider) => {
-            if (debug_colliders!=true){
+            if (debug_colliders){
             fill(collider.color);
             
-            rect(20+(windowWidth/2 + bgImage.x - (collider.x+resolutionDifferenceX)), 50+(windowHeight/2 + bgImage.y - (collider.y+resolutionDifferenceY)), Math.abs(collider.x-collider.w), Math.abs(collider.y-collider.h));
+            rect(20+(windowWidth/2 + bgImage.x - (collider.x+adjustDeviceColliderX)), 50+(windowHeight/2 + bgImage.y - (collider.y+adjustDeviceColliderY)), Math.abs(collider.x-collider.w), Math.abs(collider.y-collider.h));
             }
             // if (X < collider.x && X > collider.w && Y < collider.y && Y > collider.h) {
             if (X-(adjustDeviceColliderX) < collider.x && X-(adjustDeviceColliderX) > collider.w && Y-(adjustDeviceColliderY) < collider.y && Y-(adjustDeviceColliderY) > collider.h) {

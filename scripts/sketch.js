@@ -8,19 +8,21 @@ var bullet_sound;
 var walk_sound;
 var frameToShow=0; //do not attempt to change this variable
 //frame to show variable will be channged in plyr.js to make the character when key is pressed
-let no_of_enemies = 3;
+let no_of_enemies = 2;
 let bgImage;//do not change this variaable
 let crosshair_image;
 let collect_colliders = [{x:0,y:0,w:0,h:0}];
-let debug_colliders = true;
+let debug_colliders = false;
 
 let animate_enemy=[];
-
 
 let nativeWidth = 1536;//this is the width of the computer that this game was made on
 let nativeHeight = 763;//this is the height of the computer that this game was made on
 let adjustDeviceColliderX;
 let adjustDeviceColliderY;
+
+let is_phone = false;
+let phone_movement ="";
 
 function preload(){
     
@@ -30,6 +32,7 @@ function preload(){
      plyr.direction = 'r'; //.direction is needed for projectile direction when pressing space
      plyr.x=windowWidth/2;
      plyr.y=windowHeight/2;
+     
      walk_sound = loadSound('assets/sound/walk.mp3');
      bullet_sound = loadSound('assets/sound/gunshot.mp3');
      enemy = loadImage("assets/enemy/idle/enemy (1).png"); 
@@ -40,7 +43,7 @@ function preload(){
      for (let i=0;i<no_of_enemies;i++){
         enemies[i] = new Enemy(Math.random()*800+300,Math.random()*1920); 
         enemies[i].init_images();
-        animate_enemy[i] = new Animate(enemies[i].images);
+        animate_enemy[i] = new Animate(enemies[i].images, 2);
      }
     adjustDeviceColliderX = (windowWidth-nativeWidth)/2;
     adjustDeviceColliderY = (windowHeight-nativeHeight)/2;
@@ -76,6 +79,8 @@ function sortEnemy()
     
 }
 function draw(){
+    
+    
     connected = true;//not connecting to firebase at the moment
     // $(window).blur(function() {
     //     console.log("inactive Window")
@@ -99,9 +104,8 @@ function draw(){
          playerObj =onlinePlayer.info;
     }
     
-    // background(bg);
-    // background(50);
-    background(51);
+    // background(bgImage.img);
+    background(50);
     if (connected)
     {
     bgImage.show();
@@ -158,7 +162,7 @@ function draw(){
         }
     }
     
-        if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){ //68 is d in wasd
+        if (keyIsDown(RIGHT_ARROW) || keyIsDown(68) || phone_movement=="r"){ //68 is d in wasd
             //Pass enemies array to function to modify it's x and y value
             plyr.moveRight(enemies);
             img = plyr.images_right;
@@ -177,7 +181,7 @@ function draw(){
             onlinePlayer.info.x = plyr.x;
             onlinePlayer.info.y = plyr.y;
             // updatePlayer(playerObj);
-        } else  if (keyIsDown(DOWN_ARROW)|| keyIsDown(83)){
+        } else  if (keyIsDown(DOWN_ARROW)|| keyIsDown(83) || phone_movement=="l"){
             img = plyr.images_front;
             plyr.moveDown(enemies);
             onlinePlayer.info.x = plyr.x;
@@ -188,6 +192,8 @@ function draw(){
                 plyr.movement_speed = 10;
                 
         }
+
+        
         
             // console.log(bgImage.x, bgImage.y);
         
@@ -206,15 +212,15 @@ function keyReleased(){
 }
 
 function mousePressed(){
-     
-        bullet_sound.play();
-        
-        
     
+    if (!is_phone){
+
+    bullet_sound.play();
     cameraShake(10,30);
     var attack = new Attack(plyr.x+60,plyr.y+20, plyr.direction, mouseX, mouseY, true);
         attacks.push(attack);
         plyr.change_frames(true);
+    }
         // console.log("attack start",plyr.x,plyr.y);
 }
 
@@ -223,11 +229,11 @@ function mouseDragged(){
     // var audio = new Audio('/assets/sound/gunshot.mp3');
     // audio.play();
     
-    cameraShake(10,30);
-    var attack = new Attack(plyr.x+60,plyr.y+20, plyr.direction, mouseX, mouseY, true);
-        attacks.push(attack);
-        plyr.change_frames(true);
-        console.log("attack start",plyr.x,plyr.y);
+    // cameraShake(10,30);
+    // var attack = new Attack(plyr.x+60,plyr.y+20, plyr.direction, mouseX, mouseY, true);
+    //     attacks.push(attack);
+    //     plyr.change_frames(true);
+    //     console.log("attack start",plyr.x,plyr.y);
 }
 
 function mouseReleased(){
@@ -238,6 +244,7 @@ function mouseReleased(){
         
         
       }
+    is_phone = false;
 }
 
 
@@ -284,6 +291,4 @@ function keyPressed(){
     }
     
 }
-
-
 

@@ -7,9 +7,61 @@
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.js"></script> 
     <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/addons/p5.sound.js"></script> 
+    <!-- <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script>eruda.init();</script> -->
        <style>
         html, body {margin: 0; height: 100%; overflow: hidden}
+        @media only screen and (max-width: 1000px) {
+  body {
+    background-color: lightblue;
+  }
+
+  .floatL{
+    display: block;
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	left:40px;
+	background-color:#0C9;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+}
+
+.floatR{
+  display: block;
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:#0C9;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+}
+
+
+
+}
+.floatL{
+  display: none;
+
+}
+.floatR{
+  display: none;
+}
     </style>
+    <!--for buttons in android -->
+    <button href="#" class="floatL" onclick="phone_movement='l'">
+      <h1><</h1>
+    </button>
+      <button href="#" class="floatR" onclick="phone_movement='r'">
+        <h1>></h1>
+      </button>
 </head>
 <body>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -39,6 +91,7 @@
    <script src="scripts/cameraShake.js"></script>
    <script src="scripts/map.js"></script>
    <script src="scripts/animation.js"></script>
+   <script src="scripts/mobileSupport.js"></script>
    
 </body>
 </html>

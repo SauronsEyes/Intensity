@@ -9,6 +9,8 @@ function Enemy(x,y){
 
     const MAX_HEALTH = 30;
     const MIN_HEALTH = 20;
+    
+
     this.health = Math.random() * (MAX_HEALTH - MIN_HEALTH) + MIN_HEALTH;
 
     this.movement_speed = Math.random() *2 + 2;
@@ -30,6 +32,8 @@ function Enemy(x,y){
         // fill(0,255,0);
         // ellipse(this.x, this.y,this.r*2,this.r*2);
         image(img,this.x, this.y);
+        fill(20, 20, 20,150);
+        ellipse(this.x+130,this.y+200, Math.random() * (60 - 50) + 50, Math.random() * (30 - 20) + 20); //shadow
     }
 
     this.grow= function(){

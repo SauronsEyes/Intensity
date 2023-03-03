@@ -2,6 +2,10 @@
 function Attack(x,y,dir,finalx=0,finaly=0, mouse=false){ //remove dir and mouse after mouse works
     this.x = x-30;
     this.y = y+30;
+
+    let initialX = this.x;
+    let initialY = this.y;
+
     this.r = 5;
 
     this.endX = finalx;
@@ -18,17 +22,25 @@ function Attack(x,y,dir,finalx=0,finaly=0, mouse=false){ //remove dir and mouse 
 
     this.show = function(){
         noStroke();
-        fill(236,165,0);
+        fill(255,255,100);
         // fill(255,255,255);
-        ellipse(this.x, this.y,this.r*2,this.r*2);
+        ellipse(this.x, this.y,this.r*1.5,this.r*1.5);
         fill(255, 170, 51,4);
         // fill(220,220,220,4);
 
-        for(i = 0; i < this.r*10; i++){
-            ellipse(this.x,this.y, i*3);
-          }
-        
-          if (bgImage.check_collision(this.x,this.y)){
+        for(i = 0; i < this.r*4; i++){
+            ellipse(initialX,initialY, i*3);
+        }
+        push();
+        translate(this.x, this.y);
+        rotate(Math.atan((this.y-this.endY)/(this.x-this.endX)));
+        for(i = 0; i < this.r*4; i++){
+            
+            ellipse(0, 0, i*5, i);
+        }
+        pop();
+        console.log(bgImage.x+this.x,bgImage.y+this.y);
+        if (bgImage.check_collision(bgImage.x+this.x,bgImage.x+this.y)){
             console.log("hhello");
         }
     }
@@ -65,7 +77,6 @@ function Attack(x,y,dir,finalx=0,finaly=0, mouse=false){ //remove dir and mouse 
             }}
         
         if (mouse){
-            
                 let delta_x = this.endX - this.x
                 let delta_y = this.endY - this.y
                 let dist = sqrt( (delta_x * delta_x) + (delta_y * delta_y) ) //using distance formula
