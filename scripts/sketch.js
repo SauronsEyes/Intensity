@@ -55,7 +55,7 @@ function preload(){
 
 function setup(){
     
-    console.log(windowWidth, windowHeight);
+    // console.log(windowWidth, windowHeight);
     
     // not connecting to firebase at the moment
     // connectPlayer();

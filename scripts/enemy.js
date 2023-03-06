@@ -81,12 +81,18 @@ function Enemy(x,y){
                 // }
                 if ((bgImage.check_collision(bgImage.x-this.x+finalX,bgImage.y-this.y+finalY+this.movement_speed))){
                     console.log("okay enemy collidedx");
-                    this.x = x_move + this.x;
+                    
+                        console.log("okay enemy collidedy");
+                        // this.y = - y_move + this.y;
+                        this.x = x_move + this.x; 
+                  
                     // this.x = - x_move + this.x;   
                 } else if ((bgImage.check_collision(bgImage.x-this.x+finalX+this.movement_speed,bgImage.y-this.y+finalY))){
                     console.log("okay enemy collidedy");
                     // this.y = - y_move + this.y;
-                    this.y = y_move + this.y; 
+                    
+                        this.y = y_move + this.y;
+                    
                 } else {
                     this.x = x_move + this.x;
                     this.y = y_move + this.y;
