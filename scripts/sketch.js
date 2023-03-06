@@ -8,7 +8,7 @@ var bullet_sound;
 var walk_sound;
 var frameToShow=0; //do not attempt to change this variable
 //frame to show variable will be channged in plyr.js to make the character when key is pressed
-let no_of_enemies = 1;
+let no_of_enemies = 100;
 let bgImage;//do not change this variaable
 let crosshair_image;
 let collect_colliders = [{x:0,y:0,w:0,h:0}];
@@ -25,7 +25,7 @@ let adjustDeviceColliderY;
 
 let is_phone = false;
 let phone_movement ="";
-
+let renderUI;
 function preload(){
     
      plyr = new Character();
@@ -41,9 +41,10 @@ function preload(){
      bgImage = new Map("map_main.jpg",0,0);
      bgImage.init()
      crosshair_image = loadImage("assets/crosshair.png"); 
-    
+     renderUI = new RenderUI(plyr);
+     renderUI.init_images('assets/ui/');
      for (let i=0;i<no_of_enemies;i++){
-        enemies[i] = new Enemy(Math.random()*4280+300,Math.random()*3650); 
+        enemies[i] = new Enemy(Math.random()*4280,Math.random()*4000); 
         enemies[i].init_images();
         animate_enemy[i] = new Animate(enemies[i].images, 2);
      }
@@ -207,6 +208,9 @@ function draw(){
     // console.log(winMouseX, winMouseY);
     image(crosshair_image, mouseX-25,mouseY-25, 50,50);
     // ellipse(mouseX,mouseY, 50,50);
+
+    renderUI.renderRainParticles();
+    renderUI.renderHealth();
     
 
 }

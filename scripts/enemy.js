@@ -1,8 +1,8 @@
 function Enemy(x,y){
     //Problem: when enemy is at the leftmost side of the screen enemy does not move
     
-    this.x = 0;
-    this.y = 0;
+    this.x = x;
+    this.y = y;
 
     this.r=40;
     this.images=[];
@@ -14,7 +14,7 @@ function Enemy(x,y){
 
     const MAX_HEALTH = 30;
     const MIN_HEALTH = 20;
-    
+    this.damage = 0.2;
 
     this.health = Math.random() * (MAX_HEALTH - MIN_HEALTH) + MIN_HEALTH;
 
@@ -109,6 +109,7 @@ function Enemy(x,y){
             if(this.x == finalX && this.y == finalY)
             {
                 cameraShake(8,20);
+                plyr.health -= this.damage;
             }
         }
     }

@@ -11,13 +11,23 @@
     <script>eruda.init();</script> -->
        <style>
         html, body {margin: 0; height: 100%; overflow: hidden}
+        #defaultCanvas0
+        {
+          animation: brightanim 120s infinite;
+        }
+        @keyframes brightanim {
+          50%
+          {
+            filter: brightness(0.5) contrast(1.4)  saturate(1.5);
+          }
+        }
         @media only screen and (max-width: 1000px) {
   body {
     background-color: lightblue;
   }
 
   .floatL{
-    display: block!important;
+    display: block;
 	position:fixed;
 	width:60px;
 	height:60px;
@@ -31,7 +41,7 @@
 }
 
 .floatR{
-  display: block!important;
+  display: block;
 	position:fixed;
 	width:60px;
 	height:60px;
@@ -49,6 +59,7 @@
 }
 .floatL{
   display: none;
+
 }
 .floatR{
   display: none;
@@ -90,7 +101,10 @@
    <script src="scripts/cameraShake.js"></script>
    <script src="scripts/map.js"></script>
    <script src="scripts/animation.js"></script>
+   <script src="scripts/renderUI.js"></script>
    <script src="scripts/mobileSupport.js"></script>
+   <script src="scripts/rain.js"></script>
+
    
 </body>
 </html>
