@@ -39,7 +39,7 @@ function Attack(x,y,dir,finalx=0,finaly=0, mouse=false){ //remove dir and mouse 
             ellipse(0, 0, i*5, i);
         }
         pop();
-        console.log(bgImage.x+this.x,bgImage.y+this.y);
+        // console.log(bgImage.x+this.x,bgImage.y+this.y);
         if (bgImage.check_collision(bgImage.x+this.x,bgImage.x+this.y)){
             console.log("hhello");
         }

@@ -8,11 +8,13 @@ var bullet_sound;
 var walk_sound;
 var frameToShow=0; //do not attempt to change this variable
 //frame to show variable will be channged in plyr.js to make the character when key is pressed
-let no_of_enemies = 2;
+let no_of_enemies = 1;
 let bgImage;//do not change this variaable
 let crosshair_image;
 let collect_colliders = [{x:0,y:0,w:0,h:0}];
-let debug_colliders = false;
+let debug_colliders = false;  
+
+let map_depth; 
 
 let animate_enemy=[];
 
@@ -39,15 +41,16 @@ function preload(){
      bgImage = new Map("map_main.jpg",0,0);
      bgImage.init()
      crosshair_image = loadImage("assets/crosshair.png"); 
-
+    
      for (let i=0;i<no_of_enemies;i++){
-        enemies[i] = new Enemy(Math.random()*800+300,Math.random()*1920); 
+        enemies[i] = new Enemy(Math.random()*4280+300,Math.random()*3650); 
         enemies[i].init_images();
         animate_enemy[i] = new Animate(enemies[i].images, 2);
      }
     adjustDeviceColliderX = (windowWidth-nativeWidth)/2;
     adjustDeviceColliderY = (windowHeight-nativeHeight)/2;
 
+    // map_depth = loadImage("assets/maps/map_main_depth.png"); 
     }
 
 function setup(){
@@ -59,6 +62,7 @@ function setup(){
     // livePlayersInfo();
     // livePlayersConnection();
     noCursor();
+
     
     
     createCanvas(windowWidth, windowHeight);
@@ -79,7 +83,7 @@ function sortEnemy()
     
 }
 function draw(){
-    
+    // console.log("chill");
     
     connected = true;//not connecting to firebase at the moment
     // $(window).blur(function() {
@@ -139,6 +143,7 @@ function draw(){
         
         plyr.show(img[frameToShow],plyr.x,plyr.y);  
     }
+    bgImage.show_depth(bgImage.x,bgImage.y);
 
     
 
@@ -166,6 +171,7 @@ function draw(){
             //Pass enemies array to function to modify it's x and y value
             plyr.moveRight(enemies);
             img = plyr.images_right;
+            
             onlinePlayer.info.x = plyr.x;
             onlinePlayer.info.y = plyr.y;
             // updatePlayer(playerObj);           
@@ -189,14 +195,14 @@ function draw(){
             // updatePlayer(playerObj);
         }
         if (keyIsDown(SHIFT)){
-                plyr.movement_speed = 10;
-                
+                plyr.movement_speed = 10;    
         }
-
-        
-        
+        if (keyIsDown(76)){
+            debug_colliders = true;
+        }
             // console.log(bgImage.x, bgImage.y);
-        
+
+            
     }
     // console.log(winMouseX, winMouseY);
     image(crosshair_image, mouseX-25,mouseY-25, 50,50);
@@ -209,6 +215,7 @@ function keyReleased(){
     walk_sound.stop();
     frameToShow = 0;
     plyr.movement_speed = plyr.default_speed;
+    debug_colliders = false;
 }
 
 function mousePressed(){
@@ -229,11 +236,11 @@ function mouseDragged(){
     // var audio = new Audio('/assets/sound/gunshot.mp3');
     // audio.play();
     
-    // cameraShake(10,30);
-    // var attack = new Attack(plyr.x+60,plyr.y+20, plyr.direction, mouseX, mouseY, true);
-    //     attacks.push(attack);
-    //     plyr.change_frames(true);
-    //     console.log("attack start",plyr.x,plyr.y);
+    cameraShake(10,30);
+    var attack = new Attack(plyr.x+60,plyr.y+20, plyr.direction, mouseX, mouseY, true);
+        attacks.push(attack);
+        plyr.change_frames(true);
+        console.log("attack start",plyr.x,plyr.y);
 }
 
 function mouseReleased(){
@@ -267,20 +274,19 @@ function keyPressed(){
             collect_colliders.at(-1).h = bgImage.y - adjustDeviceColliderY;
             console.log(collect_colliders.at(-1));
             let colors =["red","blue","green","pink","yellow"]
-            if (debug_colliders){
+            // if (debug_colliders){
                 collect_colliders.at(-1)["color"]=color(colors[Math.floor(Math.random() * colors.length)]);
-            }
-            bgImage.saved_settings["current_map"].colliders.push(collect_colliders.at(-1));
+        // }
+            bgImage.saved_settings["map_main.jpg"].colliders.push(collect_colliders.at(-1));
             
             collect_colliders.push({x:0,y:0,w:0,h:0})
-            
             
         }
     }
     if (key=="e" && collect_colliders.length>=2){
         collect_colliders.pop()
         if (!(collect_colliders.at(-1).w==0 && collect_colliders.at(-1).h==0)){
-        bgImage.saved_settings["current_map"].colliders.pop();}
+        bgImage.saved_settings["map_main.jpg"].colliders.pop();}
         console.log(collect_colliders.at(-1));
         collect_colliders.push({x:0,y:0,w:0,h:0})
     }

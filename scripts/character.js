@@ -36,7 +36,7 @@ function Character(id=""){
     this.change_frames=function(hit=false){
         //for this function to work create a frameToShow variable that changes the image in draw function
         //need to pass the frame to show variable by reference
-        let frameSpeed = 10;
+        let frameSpeed = 4;
         if (hit){
             frameSpeed=0;
         }
@@ -63,7 +63,8 @@ function Character(id=""){
     this.show = function(img, x=this.x,y=this.y){
         noStroke();
         fill(20, 20, 20,150);
-        ellipse(this.x+20,this.y+70, 30,15);
+
+        ellipse(this.x+20,this.y+70, 27,14); //shadow
         image(img,x,y); //can resize the character image(img,x,y,width,height)
 
     }
@@ -74,7 +75,8 @@ function Character(id=""){
         enemies.map((enemy)=>{
             enemy.x += this.movement_speed;
         })
-        bgImage.x += this.movement_speed;}
+        bgImage.x += this.movement_speed;
+    }
         //this.x -= this.movement_speed;
         
         this.direction='l';
@@ -86,7 +88,8 @@ function Character(id=""){
         enemies.map((enemy)=>{
             enemy.y += this.movement_speed;
         })
-        bgImage.y += this.movement_speed
+        bgImage.y += this.movement_speed;
+
     }
         //this.y -= this.movement_speed;
         this.direction='u';
@@ -108,7 +111,9 @@ function Character(id=""){
         enemies.map((enemy)=>{
             enemy.y -= this.movement_speed;
         })
-        bgImage.y -= this.movement_speed;}
+        bgImage.y -= this.movement_speed;
+        
+    }
         //this.y += this.movement_speed;
         this.direction='d';
         this.change_frames();
