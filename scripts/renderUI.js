@@ -8,13 +8,16 @@ function RenderUI(character)
     {
         this.rainParticles[i] = new Rain();
     }
-
+    this.renderBloodOverlay = function()
+    {
+        image(this.overlayImages[0],0,0,windowWidth,windowHeight);   
+    }
     this.renderHealth = function()
     {
         if(character.health <30)
         {   
             // tint(255, 127);
-            image(this.overlayImages[0],0,0,windowWidth,windowHeight); 
+            this.renderBloodOverlay();
             // tint(255, 255);  
         }
         

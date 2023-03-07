@@ -29,9 +29,14 @@ let adjustDeviceColliderY;
 let is_phone = false;
 let phone_movement ="";
 let renderUI;
+let renderMenu;
+var titleFont;
+var basicFont;
+let onMainMenu = true;
 // let rain_timer = parseInt(Math.random()*2000);
 function preload(){
-    
+    titleFont = loadFont('assets/font/Nos.ttf');
+    basicFont = loadFont('assets/font/stat.ttf');
      plyr = new Character();
      plyr.init_images("assets/character/images/",4);
      img = plyr.images_right;//starting image direction
@@ -47,6 +52,7 @@ function preload(){
      crosshair_image = loadImage("assets/crosshair.png"); 
      renderUI = new RenderUI(plyr);
      renderUI.init_images('assets/ui/');
+     renderMenu = new MenuScreen();
      for (let i=0;i<no_of_enemies;i++){
         enemies[i] = new Enemy(Math.random()*4000,Math.random()*4000); 
         // enemies[i].init_images();
@@ -240,7 +246,6 @@ function draw(){
             
     }
     // console.log(winMouseX, winMouseY);
-    image(crosshair_image, mouseX-25,mouseY-25, 50,50);
     // ellipse(mouseX,mouseY, 50,50);
     
     
@@ -248,8 +253,14 @@ function draw(){
         renderUI.renderRainParticles();
         
     } 
-    
+   
     renderUI.renderHealth();
+    if(onMainMenu)
+    {
+        renderMenu.show();
+    }
+    image(crosshair_image, mouseX-25,mouseY-25, 50,50);
+
     
 
 }
@@ -270,6 +281,10 @@ function mousePressed(){
     var attack = new Attack(plyr.x+60,plyr.y+20, plyr.direction, mouseX, mouseY, true);
         attacks.push(attack);
         plyr.change_frames(true);}
+    }
+    if(onMainMenu)
+    {
+        renderMenu.handleSelect();
     }
         // console.log("attack start",plyr.x,plyr.y);
 }
