@@ -104,9 +104,12 @@ function Enemy(x,y){
             let dist = sqrt( (delta_x * delta_x) + (delta_y * delta_y) ) //using distance formula
             if (dist > this.movement_speed)
             {
+                
                 let ratio = this.movement_speed / dist;
                 let x_move = ratio * delta_x;   //the ratio by which x should increase
                 let y_move = ratio * delta_y; //the ratio by which y should increase
+                console.log(x_move,y_move);
+
                 // if ((bgImage.check_collision(bgImage.x-this.x+finalX,bgImage.y-this.y+finalY))){
                 //     console.log("okay enemy collided");
                 // }

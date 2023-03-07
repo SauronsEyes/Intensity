@@ -57,7 +57,7 @@ function MenuScreen ()
             }
             
 
-            console.log(this.hoveredOption);
+            
             if(menuItem.type == 1 || isHovered)
             {
                 if(index>0)
@@ -94,6 +94,30 @@ function MenuScreen ()
         cameraShake(80,30);
         if(this.hoveredOption == 1)
         {
+            var speed;
+            var attack = 0.2;
+            if(this.selectDifficulty ==0)
+            {
+                speed = 6
+            }
+            else if(this.selectDifficulty == 1)
+            {
+                speed = 7;
+                generateEnemy(20);
+                attack = 0.3;
+            }
+            else 
+            {
+                speed = 8;
+                generateEnemy(40);
+                attack = 0.4;
+            }
+            enemies.map((enemy)=>{
+                enemy.movement_speed = Math.random() *speed + 2;
+                enemy.damage = attack;
+               
+            })
+            console.log(speed);
             onMainMenu = false;
         }
         if(this.hoveredOption == 2)

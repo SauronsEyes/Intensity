@@ -53,12 +53,7 @@ function preload(){
      renderUI = new RenderUI(plyr);
      renderUI.init_images('assets/ui/');
      renderMenu = new MenuScreen();
-     for (let i=0;i<no_of_enemies;i++){
-        enemies[i] = new Enemy(Math.random()*4000,Math.random()*4000); 
-        // enemies[i].init_images();
-        enemies[i].init_goblin_images("/assets/enemy/goblin",6);
-        animate_enemy[i] = new Animate(enemies[i].images_front, 2);
-     }
+     generateEnemy(50);
      for (let i=0;i<no_of_health_pickups;i++){
         health_pickups[i] = new characterEssentials(Math.random()*4000, Math.random()*4000, "health_pack"); 
         // enemies[i].init_images();
@@ -100,6 +95,17 @@ function sortEnemy()
     enemies = enemies.sort(
         (e1, e2) => (e1.y >e2.y) ? 1 : (e1.y < e2.y) ? -1 : 0);
     
+}
+function generateEnemy(number)
+{
+    for (let i=0;i<number;i++){
+        let enemy = new Enemy(Math.random()*4000,Math.random()*4000); 
+        // enemies[i].init_images();
+        enemy.init_goblin_images("/assets/enemy/goblin",6);
+        anim_enemy = new Animate(enemy.images_front, 2);
+        enemies.push(enemy);
+        animate_enemy.push(anim_enemy);
+     }
 }
 function draw(){
     // console.log("chill");
@@ -170,7 +176,11 @@ function draw(){
         enemies[i].show(enemies[i].images_front[animate_enemy[i].frame()]);
         // animate_enemy[i].display();
         animate_enemy[i].change_frames();
+        if(!onMainMenu)
+        {
         enemies[i].move();
+
+        }
         
     }
 
@@ -196,6 +206,7 @@ function draw(){
                     enemies[j].health-=1;
                     if (enemies[j].health<1){
                         enemies.splice(j,1);
+                        generateEnemy(1);
                         
                     } 
                     attacks[i].evaporate();
