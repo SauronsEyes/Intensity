@@ -53,7 +53,8 @@ function preload(){
      renderUI = new RenderUI(plyr);
      renderUI.init_images('assets/ui/');
      renderMenu = new MenuScreen();
-     generateEnemy(50);
+     renderMenu.init_images();
+     generateEnemy(5);
      for (let i=0;i<no_of_health_pickups;i++){
         health_pickups[i] = new characterEssentials(Math.random()*4000, Math.random()*4000, "health_pack"); 
         // enemies[i].init_images();

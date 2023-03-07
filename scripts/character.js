@@ -16,7 +16,7 @@ function Character(id=""){
         //place this function in the preload function
         //add a folder in the parameter the folder should have front, back,left and right sub folders
         //in the front folder select all and rename all to front do this for other folders
-
+        
         for (let i=1;i<no_of_frames+1;i++){
             this.images_back[i-1]=loadImage(`${path}/back/back (${i}).png`)  
         }
