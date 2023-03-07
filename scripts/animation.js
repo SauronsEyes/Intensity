@@ -3,6 +3,12 @@
 //array of images, animation speed
 
 function Animate(frames_array,animation_speed = 5){
+    let has_more_than_one_state = false;
+    
+        if (typeof frames_array=="object"){
+            has_more_than_one_state = true;
+        }
+    
     let no_of_frames = frames_array.length;
     let frameIndex = 0;
     let time=0;    

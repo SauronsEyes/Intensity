@@ -40,13 +40,13 @@ function Attack(x,y,dir,finalx=0,finaly=0, mouse=false){ //remove dir and mouse 
         }
         pop();
         // console.log(bgImage.x+this.x,bgImage.y+this.y);
-        if (bgImage.check_collision(bgImage.x+this.x,bgImage.x+this.y)){
-            console.log("hhello");
-        }
+        // if (bgImage.check_collision(bgImage.x+this.x,bgImage.x+this.y)){
+        //     // console.log("hhello");
+        // }
     }
 
     this.hits = function(flower){
-        var d = dist(this.x-100, this.y-130, flower.x, flower.y);//changed the +20 and -20 for enemy.png
+        var d = dist(this.x-100, this.y-130, flower.x-50, flower.y-50);//changed the +20 and -20 for enemy.png
         if (d<this.r +flower.r)
         {
             return true;

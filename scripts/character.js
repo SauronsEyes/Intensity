@@ -63,29 +63,36 @@ function Character(id=""){
     this.show = function(img, x=this.x,y=this.y){
         noStroke();
         fill(20, 20, 20,150);
-
-        ellipse(this.x+20,this.y+70, 27,14); //shadow
-        image(img,x,y); //can resize the character image(img,x,y,width,height)
+        if (this.health>0){
+            ellipse(this.x+20,this.y+70, 27,14); //shadow
+            image(img,x,y);
+        }
+         //can resize the character image(img,x,y,width,height)
 
     }
 
     this.moveLeft = function (){
         //check if next movement will result in collision if not then only move the map and enemy
-        if (!(bgImage.check_collision(bgImage.x+ this.movement_speed, bgImage.y))){
-        enemies.map((enemy)=>{
+        
+        if (this.health>0){
+         if (!(bgImage.check_collision(bgImage.x+ this.movement_speed, bgImage.y))){
+            enemies.map((enemy)=>{
             enemy.x += this.movement_speed;
-        })
+            })
         bgImage.x += this.movement_speed;
     }
+    
         //this.x -= this.movement_speed;
         
         this.direction='l';
-        this.change_frames();
+        this.change_frames();}
         
     }
     this.moveUp = function (){
-        if (!(bgImage.check_collision(bgImage.x,bgImage.y + this.movement_speed))){  
-        enemies.map((enemy)=>{
+
+        if (this.health>0){
+            if (!(bgImage.check_collision(bgImage.x,bgImage.y + this.movement_speed))){  
+             enemies.map((enemy)=>{
             enemy.y += this.movement_speed;
         })
         bgImage.y += this.movement_speed;
@@ -93,9 +100,12 @@ function Character(id=""){
     }
         //this.y -= this.movement_speed;
         this.direction='u';
-        this.change_frames();
+        this.change_frames();}
     }
     this.moveRight = function (){
+        if (this.health>0){
+
+      
         if (!(bgImage.check_collision(bgImage.x- this.movement_speed, bgImage.y))){
         enemies.map((enemy)=>{
             enemy.x -= this.movement_speed;
@@ -104,9 +114,10 @@ function Character(id=""){
     }
         //this.x += this.movement_speed;
         this.direction='r';
-        this.change_frames();
+        this.change_frames();  }
     }
     this.moveDown = function (){
+        if(this.health>0){
         if (!(bgImage.check_collision(bgImage.x,bgImage.y - this.movement_speed))){
         enemies.map((enemy)=>{
             enemy.y -= this.movement_speed;
@@ -117,7 +128,7 @@ function Character(id=""){
         //this.y += this.movement_speed;
         this.direction='d';
         this.change_frames();
-
+}
     }
 
 }

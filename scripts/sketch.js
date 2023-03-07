@@ -3,12 +3,14 @@ let connected = false;
 var enemy;
 var enemies = []; // do not change this variable
 var attacks = [];
+var health_pickups = [];
 var img=[];
 var bullet_sound;
 var walk_sound;
 var frameToShow=0; //do not attempt to change this variable
 //frame to show variable will be channged in plyr.js to make the character when key is pressed
-let no_of_enemies = 100;
+let no_of_enemies =100;
+let no_of_health_pickups = 10;
 let bgImage;//do not change this variaable
 let crosshair_image;
 let collect_colliders = [{x:0,y:0,w:0,h:0}];
@@ -17,6 +19,7 @@ let debug_colliders = false;
 let map_depth; 
 
 let animate_enemy=[];
+let animate_health_pickups=[];
 
 let nativeWidth = 1536;//this is the width of the computer that this game was made on
 let nativeHeight = 763;//this is the height of the computer that this game was made on
@@ -26,6 +29,7 @@ let adjustDeviceColliderY;
 let is_phone = false;
 let phone_movement ="";
 let renderUI;
+// let rain_timer = parseInt(Math.random()*2000);
 function preload(){
     
      plyr = new Character();
@@ -34,8 +38,8 @@ function preload(){
      plyr.direction = 'r'; //.direction is needed for projectile direction when pressing space
      plyr.x=windowWidth/2;
      plyr.y=windowHeight/2;
-     
-     walk_sound = loadSound('assets/sound/walk.mp3');
+     console.log(windowWidth);
+    //  walk_sound = loadSound('assets/sound/walk.mp3');
      bullet_sound = loadSound('assets/sound/gunshot.mp3');
      enemy = loadImage("assets/enemy/idle/enemy (1).png"); 
      bgImage = new Map("map_main.jpg",0,0);
@@ -44,10 +48,18 @@ function preload(){
      renderUI = new RenderUI(plyr);
      renderUI.init_images('assets/ui/');
      for (let i=0;i<no_of_enemies;i++){
-        enemies[i] = new Enemy(Math.random()*4280,Math.random()*4000); 
-        enemies[i].init_images();
-        animate_enemy[i] = new Animate(enemies[i].images, 2);
+        enemies[i] = new Enemy(Math.random()*4000,Math.random()*4000); 
+        // enemies[i].init_images();
+        enemies[i].init_goblin_images("/assets/enemy/goblin",6);
+        animate_enemy[i] = new Animate(enemies[i].images_front, 2);
      }
+     for (let i=0;i<no_of_health_pickups;i++){
+        health_pickups[i] = new characterEssentials(Math.random()*4000, Math.random()*4000, "health_pack"); 
+        // enemies[i].init_images();
+        health_pickups[i].init_images();
+        animate_health_pickups[i] = new Animate(health_pickups[i].images, 12);
+     }
+     
     adjustDeviceColliderX = (windowWidth-nativeWidth)/2;
     adjustDeviceColliderY = (windowHeight-nativeHeight)/2;
 
@@ -110,41 +122,63 @@ function draw(){
     }
     
     // background(bgImage.img);
-    background(50);
+    background(24,20,37);
     if (connected)
     {
     bgImage.show();
     bgImage.activate_colliders(bgImage.x,bgImage.y);
+    bgImage.activate_events(bgImage.x,bgImage.y);
     
     let playerRendered = false;
     sortEnemy();
     
     
-        var edge = false;
-    for (let i=0;i<enemies.length;i++){
+    var edge = false;
+    
+    
+    if (bgImage.saved_settings[bgImage.name].enemiesCount>0)
+    
+    
+    {   
+
+     
+        for (let i=0;i<health_pickups.length;i++){
         
-        if(plyr.y < enemies[i].y +90 && !playerRendered)
+            health_pickups[i].show(health_pickups[i].images[animate_health_pickups[i].frame()], animate_health_pickups[i].frame());
+            animate_health_pickups[i].change_frames();
+            health_pickups[i].activate();
+            if (health_pickups[i].used){
+                health_pickups.splice(i,1);
+            }
+        }
+
+        
+        for (let i=0;i<enemies.length;i++){
+        
+        if(plyr.y < enemies[i].y +20 && !playerRendered)
         {
             playerRendered = true;
             plyr.show(img[frameToShow],plyr.x,plyr.y);
         }  
         
-        enemies[i].show(enemies[i].images[animate_enemy[i].frame()]);
+        enemies[i].show(enemies[i].images_front[animate_enemy[i].frame()]);
         // animate_enemy[i].display();
         animate_enemy[i].change_frames();
         enemies[i].move();
         
-        if (enemies[i].x+350>width || enemies[i].x-100<0){
-            edge = true;
-        }
     }
+
+}
     
     if(!playerRendered)
     {
         
         plyr.show(img[frameToShow],plyr.x,plyr.y);  
     }
-    bgImage.show_depth(bgImage.x,bgImage.y);
+    if (bgImage.saved_settings[bgImage.name].depth.path!=""){
+        bgImage.show_depth(bgImage.x,bgImage.y);
+    }
+    
 
     
 
@@ -208,15 +242,20 @@ function draw(){
     // console.log(winMouseX, winMouseY);
     image(crosshair_image, mouseX-25,mouseY-25, 50,50);
     // ellipse(mouseX,mouseY, 50,50);
-
-    renderUI.renderRainParticles();
+    
+    
+    if (bgImage.saved_settings[bgImage.name].weather){
+        renderUI.renderRainParticles();
+        
+    } 
+    
     renderUI.renderHealth();
     
 
 }
 
 function keyReleased(){
-    walk_sound.stop();
+    // walk_sound.stop();
     frameToShow = 0;
     plyr.movement_speed = plyr.default_speed;
     debug_colliders = false;
@@ -224,13 +263,13 @@ function keyReleased(){
 
 function mousePressed(){
     
-    if (!is_phone){
-
+    if (!is_phone && bgImage.saved_settings[bgImage.name].type=="hostile"){
+        if (plyr.health>0){
     bullet_sound.play();
     cameraShake(10,30);
     var attack = new Attack(plyr.x+60,plyr.y+20, plyr.direction, mouseX, mouseY, true);
         attacks.push(attack);
-        plyr.change_frames(true);
+        plyr.change_frames(true);}
     }
         // console.log("attack start",plyr.x,plyr.y);
 }
@@ -239,22 +278,22 @@ function mouseDragged(){
     //for machine gun
     // var audio = new Audio('/assets/sound/gunshot.mp3');
     // audio.play();
-    
+    if (plyr.health>0 && bgImage.saved_settings[bgImage.name].type=="hostile"){
     cameraShake(10,30);
     var attack = new Attack(plyr.x+60,plyr.y+20, plyr.direction, mouseX, mouseY, true);
         attacks.push(attack);
         plyr.change_frames(true);
         console.log("attack start",plyr.x,plyr.y);
-}
+}}
 
 function mouseReleased(){
     
     frameToShow = 0;
-    if (bullet_sound.isPlaying()) {
-        // .isPlaying() returns a boolean
+    // if (bullet_sound.isPlaying()) {
+    //     // .isPlaying() returns a boolean
         
         
-      }
+    //   }
     is_phone = false;
 }
 
@@ -281,7 +320,7 @@ function keyPressed(){
             // if (debug_colliders){
                 collect_colliders.at(-1)["color"]=color(colors[Math.floor(Math.random() * colors.length)]);
         // }
-            bgImage.saved_settings["map_main.jpg"].colliders.push(collect_colliders.at(-1));
+            bgImage.saved_settings[bgImage.name].colliders.push(collect_colliders.at(-1));
             
             collect_colliders.push({x:0,y:0,w:0,h:0})
             
@@ -290,7 +329,7 @@ function keyPressed(){
     if (key=="e" && collect_colliders.length>=2){
         collect_colliders.pop()
         if (!(collect_colliders.at(-1).w==0 && collect_colliders.at(-1).h==0)){
-        bgImage.saved_settings["map_main.jpg"].colliders.pop();}
+        bgImage.saved_settings[bgImage.name].colliders.pop();}
         console.log(collect_colliders.at(-1));
         collect_colliders.push({x:0,y:0,w:0,h:0})
     }
@@ -301,4 +340,3 @@ function keyPressed(){
     }
     
 }
-

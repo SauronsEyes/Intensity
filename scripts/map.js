@@ -1,19 +1,27 @@
 function Map(imgname, x = 0, y = 0, width = 0, height = 0) {
     //put the name of the map image as the parameter, an create the object  background = Map("bg.png");
-    this.x = 0;
-    this.y = 0;
+    this.x = -2300;
+    this.y = -2053;
     this.width = 0;
     this.height = 0;
 
     this.name = imgname;
     this.collision = false;
 
+    this.img;
     this.depth_img;
+    this.other_maps = [];
+    this.other_maps_depth = [];
+    last_position ={x:0,y:0};
     
 
-    let depth_image_name = ((imgname.split(".")));
+    this.get_depth_img_name =  function(name=this.name){
+        let depth_image_name = ((name.split(".")));
         depth_image_name.splice(1,0,"_depth.");
         depth_image_name = depth_image_name.join("");
+        return depth_image_name;
+    }
+    
 
     this.saved_settings = {
         //here we will specify the colliders and other stuffs for each map
@@ -271,11 +279,142 @@ function Map(imgname, x = 0, y = 0, width = 0, height = 0) {
 , 
 {x: -2610, y: 355, w: -2680, h: 245, color:color("blue")}
                 ],
-            depth:{
-                path:`assets/maps/${depth_image_name}`
+            events:{ doors:[
+                {h: -2128,w: -2247, x: -2172, y : -2053, map:"house.png", other_pos : 0,next_cor:{x:510-((1920-windowWidth)/2),y:-180-(922-windowHeight)/2}}]
+
             },
-            enemiesCount:10
+            depth:{
+                path:`assets/maps/"map_main_depth.jpg"`
+            },
+            enemiesCount:10,
+            size:"native",
+            weather:true,
+            position: "native",
+            type:"hostile"
+        },
+        "house.png":{
+
+            colliders:[
+                {x: 723, y: 260.5, w: 633, h: -344.5, color: color("blue")}
+                ,
                  
+                {x: 688, y: 265.5, w: 233, h: 130.5, color: color("blue")}
+                ,
+                 
+                {x: 708, y: 255.5, w: 233, h: 105.5, color: color("blue")}
+                ,
+                 
+                {x: 578, y: 165.5, w: 233, h: 30.5, color: color("blue")}
+                ,
+                 
+                {x: 583, y: 190.5, w: 233, h: 35.5, color: color("blue")}
+                ,
+                 
+                {x: 308, y: 380.5, w: 43, h: 220.5, color: color("blue")}
+                ,
+                 
+                {x: 93, y: 340.5, w: 8, h: -369.5, color: color("blue")}
+                ,
+                 
+                {x: 688, y: -89.5, w: 503, h: -224.5, color: color("blue")}
+                ,
+                 
+                {x: 493, y: -99.5, w: 328, h: -209.5, color: color("blue")}
+                ,
+                 
+                {x: 438, y: -179.5, w: 368, h: -249.5, color: color("blue")}
+                ,
+                 
+                {x: 443, y: -179.5, w: 328, h: -239.5, color: color("blue")}
+                ,
+                 
+                {x: 428, y: -214.5, w: 338, h: -254.5, color: color("blue")}
+                ,
+                 
+                {x: 688, y: -314.5, w: 338, h: -354.5, color: color("blue")}
+                ,
+                 
+                {x: 398, y: -214.5, w: 333, h: -399.5, color: color("blue")}
+                ,
+                
+                {x: 403, y: -229.5, w: 328, h: -399.5, color: color("blue")}
+                ,
+                 
+                {x: 173, y: 210.5, w: 103, h: 140.5, color: color("blue")}
+                ,
+                 
+                {x: 223, y: 140.5, w: 148, h: 85.5, color: color("blue")}
+                ,
+                 
+                {x: 213, y: 120.5, w: 143, h: -34.5, color: color("blue")}
+                ,
+                 
+                {x: 218, y: 90.5, w: 108, h: -24.5, color: color("blue")}
+                ,
+                 
+                {x: 223, y: 85.5, w: 98, h: -34.5, color: color("blue")}
+                ,
+                 
+                {x: 268, y: 20.5, w: 193, h: -54.5, color: color("blue")}
+                ,
+                 
+                {x: 268, y: 20.5, w: 188, h: -44.5, color: color("blue")}
+                ,
+                
+                {x: 118, y: 60.5, w: 58, h: 0.5, color: color("blue")}
+                ,
+                 
+                {x: 223, y: 125.5, w: 138, h: 75.5, color: color("blue")}
+                ,
+                 
+                {x: 158, y: 100.5, w: 93, h: 70.5, color: color("blue")}
+                 ,
+                {x: 243, y: 25.5, w: 188, h: -14.5, color: color("blue")}
+                ,
+                 
+                {x: 313, y: -99.5, w: 248, h: -334.5, color: color("blue")}
+                ,
+                 
+                {x: 298, y: -94.5, w: 148, h: -219.5, color: color("blue")}
+                ,
+                 
+                {x: 138, y: -94.5, w: 38, h: -219.5, color: color("blue")}
+                ,
+                 
+                {x: 173, y: -89.5, w: 143, h: -164.5, color: color("blue")}
+                ,
+                 
+                {x: 178, y: -99.5, w: 143, h: -199.5, color: color("blue")}
+                ,
+                 
+                {x: 128, y: -244.5, w: 43, h: -309.5, color: color("blue")}
+                ,
+                 
+                {x: 133, y: -239.5, w: 43, h: -299.5, color: color("blue")}
+                ,
+                 
+                {x: 133, y: -239.5, w: 43, h: -314.5, color: color("blue")}
+                ,
+                 
+                {x: 258, y: -279.5, w: 78, h: -309.5, color: color("blue")}
+                ,
+                 
+                {x: 268, y: -169.5, w: 238, h: -309.5, color: color("blue")}
+                ,
+                 
+                {x: 263, y: -299.5, w: 83, h: -309.5, color: color("blue")}
+                ,
+                 
+                {x: 268, y: -164.5, w: 233, h: -354.5, color: color("blue")}],
+            events:{doors:[{x: 355.5, y: -279.5, w: 280.5, h: -339.5, map:"map_main.jpg",  other_pos : 1, next_cor:{x:(-2020-((1920-windowWidth)/2)),y:-2053-(922-windowHeight)/2}}]},
+            enemiesCount:0,
+            depth:{
+                path:`assets/maps/"house_depth.png"`
+            },
+            size :{width:850,height:850},
+            weather:false,
+            type:"calm"
+           
         }
 
         
@@ -284,13 +423,15 @@ function Map(imgname, x = 0, y = 0, width = 0, height = 0) {
     this.activate_colliders = function (X, Y) {
         this.collision = this.check_collision(X, Y);
         
+          
     }
 
     this.check_collision = function (X, Y, is_enemy=false, enemy) {
+
         
         let has_collided = [false];
         let counter = 0;
-        this.saved_settings[imgname].colliders.map((collider) => { //current_map is the name of the map
+        this.saved_settings[this.name].colliders.map((collider) => { //current_map is the name of the map
             if (debug_colliders){
             fill(collider.color);
             
@@ -301,18 +442,6 @@ function Map(imgname, x = 0, y = 0, width = 0, height = 0) {
                 if (X-(adjustDeviceColliderX) < collider.x && X-(adjustDeviceColliderX) > collider.w && Y-(adjustDeviceColliderY) < collider.y && Y-(adjustDeviceColliderY) > collider.h) {
                 // if (X < collider.x && X > collider.w && Y < collider.y && Y > collider.h) {
                 has_collided.push(true);
-                } else {
-                    has_collided.push(false);
-                }
-            }
-
-            if (!debug_colliders && is_enemy){
-                
-                if (X < -collider.x+enemy.x && X > -collider.w+enemy.x && Y < -collider.y+enemy.y && Y > -collider.h+enemy.y) {
-                has_collided.push(true);
-                console.log(
-                    "enemy collided"
-                );
                 } else {
                     has_collided.push(false);
                 }
@@ -329,18 +458,54 @@ function Map(imgname, x = 0, y = 0, width = 0, height = 0) {
 
     }
 
-    this.img;
+    this.activate_events= function(x,y){
+        this.check_events(x,y);
+    }
+
+    this.check_events = function(X,Y){
+        let found_events = [];
+        this.saved_settings[this.name].events["doors"].map((event) => { //current_map is the name of the map
+            if (debug_colliders){
+            
+            
+            rect(20+(windowWidth/2 + bgImage.x - (event.x+adjustDeviceColliderX)), 50+(windowHeight/2 + bgImage.y - (event.y+adjustDeviceColliderY)), Math.abs(event.x-event.w), Math.abs(event.y-event.h));
+            }
+            // if (X < collider.x && X > collider.w && Y < collider.y && Y > collider.h) {
+            
+                if (X-(adjustDeviceColliderX) < event.x && X-(adjustDeviceColliderX) > event.w && Y-(adjustDeviceColliderY) < event.y && Y-(adjustDeviceColliderY) > event.h) {
+                // if the event is a door then change the map object
+                    this.x = event.next_cor.x;
+                    this.y = event.next_cor.y;
+                    this.name = event.map;
+                    this.img = this.other_maps[event.other_pos];
+                    this.depth_img = this.other_maps_depth[event.other_pos];
+                    
+
+                found_events.push(true);
+                } else {
+                    found_events.push(false);
+                }
+            
+
+        })
+    }
+
     // console.log(depth_image_name);
     this.init = function () { // this function runs automatically when the object is created
         let depth_image_is_there = false
         this.img = loadImage(`assets/maps/${imgname}`);
         try{
-            this.depth_img = loadImage(`assets/maps/${depth_image_name}`);
+            this.depth_img = loadImage(`assets/maps/${this.get_depth_img_name()}`);
             depth_image_is_there = true;
         } catch {
             depth_image_is_there = false;
             console.log("depth IMage is not there for this map");
         }
+        this.other_maps.push(loadImage(`assets/maps/house.png`));
+        this.other_maps_depth.push(loadImage(`assets/maps/house_depth.png`));
+        this.other_maps.push(loadImage(`assets/maps/${imgname}`));
+        this.other_maps_depth.push(loadImage(`assets/maps/map_main_depth.jpg`));
+
         
     }
 
@@ -350,17 +515,40 @@ function Map(imgname, x = 0, y = 0, width = 0, height = 0) {
 
     this.show = function () {
         // translate(width / 4, height / 4);
-        if (this.width == 0 && this.height == 0) {
+        if (last_position.x>0 || last_position.y>0){
+            this.x=last_position.x;
+            this.y=last_position.y;
+        }
+        if (this.width == 0 && this.height == 0 && this.saved_settings[this.name].size=="native") {
             image(this.img, this.x, this.y);
         } else {
-            image(this.img, this.x, this.y, this.width)
-            this.img.resize(this.width, this.height);
+            image(this.img, this.x, this.y, this.saved_settings[this.name].size.width,this.saved_settings[this.name].size.height)
+            
         }
         //can resize 
     }
 
     this.show_depth =  function (x=this.x,y=this.y) {
-        image(this.depth_img, x,y );//for giving depth in the map  
+        //for giving depth in the map  
+        if (last_position.x>0 || last_position.y>0){
+            x=last_position.x;
+            y=last_position.y;
+        }
+        if (this.width == 0 && this.height == 0 && this.saved_settings[this.name].size=="native") {
+            image(this.depth_img, x,y);
+        } else {
+            image(this.depth_img, x,y, this.saved_settings[this.name].size.width,this.saved_settings[this.name].size.height)
+            
+        }
+    }
+
+    this.check_map_edge=  function (){
+        if (this.x=0){
+            return "0x";
+        }
+        if (this.y=0){
+            return "0y";
+        }
     }
 
 }

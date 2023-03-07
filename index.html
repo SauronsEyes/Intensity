@@ -12,13 +12,13 @@
        <style>
         html, body {margin: 0; height: 100%; overflow: hidden}
         #defaultCanvas0
-        {
-          animation: brightanim 120s infinite;
+        { filter: brightness(0.5) contrast(1.4)  saturate(1.5);
+          animation: brightanim 150s infinite;
         }
         @keyframes brightanim {
           50%
           {
-            filter: brightness(0.5) contrast(1.4)  saturate(1.5);
+            filter: brightness(1) contrast(1)  saturate(1.5);
           }
         }
         @media only screen and (max-width: 1000px) {
