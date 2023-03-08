@@ -17,7 +17,26 @@ function RenderUI(character)
         textSize(40);
         textAlign(RIGHT);
         fill(255,255,255);
+
+        if (renderMenu.mode=="TIME TRIAL"){
+            if (renderMenu.selectDifficulty==1){
+                kills_needed = 200
+            } else if(renderMenu.selectDifficulty==2) {
+                kills_needed = 400
+            } else {
+                kills_needed = 100
+            }
+            if (kills_needed-player.score==0){
+                kills_needed= player.score+150;
+                timer+=10000;
+            }
+            text(`TIME: ${timer/100}`,0,40,windowWidth-100,50);
+            text(`KILLS NEEDED: ${kills_needed-player.score}`,0,80,windowWidth-100,50);
+        }   else {
+        
         text(`Score: ${player.score}`,0,40,windowWidth-100,50);
+
+        }
     }
     this.renderHealth = function()
     {
@@ -94,7 +113,8 @@ function characterEssentials(x,y,pickup_type = pickups[Math.floor(Math.random() 
     this.activate =  function (){
         // console.log(Math.sqrt(Math.abs(Math.pow(bgImage.x-this.x,2)+Math.pow(bgImage.y- this.y,2))));
         if(Math.sqrt(Math.abs(Math.pow(-(bgImage.x-plyr.x)-this.x,2)+Math.pow(-(bgImage.y-plyr.y) - this.y,2)))<100){
-                plyr.health+=20
+                plyr.health+=20;
+                timer += 2000;
                 if (plyr.health>100){
                         plyr.health = 100;
                 }

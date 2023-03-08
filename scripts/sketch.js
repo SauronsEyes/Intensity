@@ -10,12 +10,14 @@ var bullet_sound;
 var walk_sound;
 var frameToShow=0; //do not attempt to change this variable
 //frame to show variable will be channged in plyr.js to make the character when key is pressed
-let no_of_enemies =60;
-let no_of_health_pickups = 10;
+let no_of_enemies =100;
+let no_of_health_pickups = 20;
 let bgImage;//do not change this variaable
 let crosshair_image;
 let collect_colliders = [{x:0,y:0,w:0,h:0}];
 let debug_colliders = false;  
+var title_sound;
+let timer = 10000;
 
 let map_depth; 
 
@@ -36,6 +38,8 @@ var basicFont;
 let onMainMenu = true;
 let initialX;
 let initialY;
+let frameCount = 0;
+let kills_needed = 100;
 // let rain_timer = parseInt(Math.random()*2000);
 function preload(){
     titleFont = loadFont('assets/font/Nos.ttf');
@@ -49,6 +53,7 @@ function preload(){
      
     //  walk_sound = loadSound('assets/sound/walk.mp3');
      bullet_sound = loadSound('assets/sound/gunshot.mp3');
+     title_sound = loadSound('assets/sound/titlescreen.mp3');
      enemy = loadImage("assets/enemy/idle/enemy (1).png"); 
      bgImage = new Map("map_main.jpg",0,0);
      bgImage.init()
@@ -122,9 +127,11 @@ function generateEnemy(number)
      
 }
 function draw(){
+    console.log(timer);
     // console.log("chill");
     if(plyr.health<=0)
     {
+        timer = 10000;
         if(!onMainMenu)
         {
             enemies.map((enemy)=>{
@@ -134,7 +141,14 @@ function draw(){
         }
         onMainMenu = true;
         
+        renderMenu.menuItems[1]["text"]="RETRY";
+        
     }
+
+  if (timer<=0){
+    plyr.health = 0;
+  }
+  frameCount+=1;
     connected = true;//not connecting to firebase at the moment
     // $(window).blur(function() {
     //     console.log("inactive Window")
@@ -164,7 +178,10 @@ function draw(){
     {
     bgImage.show();
     bgImage.activate_colliders(bgImage.x,bgImage.y);
-    bgImage.activate_events(bgImage.x,bgImage.y);
+    if (renderMenu.mode=="TIME TRIAL"){
+        bgImage.activate_events(bgImage.x,bgImage.y);
+    }
+    
     
     let playerRendered = false;
     sortEnemy();
@@ -172,12 +189,17 @@ function draw(){
     
     var edge = false;
     
-    blood_particles.map((blood_particle,index)=>{
+    if (bgImage.saved_settings[bgImage.name].type!="calm"){blood_particles.map((blood_particle,index)=>{
         
         blood_particle.showAnim();
+        
+        // if(blood_particle.state>=7)
+        // {
+        //     splice(blood)
+        // }
 
         
-    })
+    })}
     if (bgImage.saved_settings[bgImage.name].enemiesCount>0)
     
     
@@ -209,7 +231,13 @@ function draw(){
             animate_enemy[i].change_frames();
             if(!onMainMenu)
             {
+            if (renderMenu.mode=="TIME TRIAL"){
+                if (frameCount % 40 == 0 && timer > 0) { // if the frameCount is divisible by 60, then a second has passed. it will stop at 0
+                    timer -=1;
+                }
+            }
             enemies[i].move();
+            
 
             }
         }
@@ -218,6 +246,13 @@ function draw(){
     }
 
 }
+if(!onMainMenu)
+{
+if (renderMenu.mode=="TIME TRIAL"){
+    if (frameCount % 40 == 0 && timer > 0) { // if the frameCount is divisible by 60, then a second has passed. it will stop at 0
+        timer -=1;
+    }
+}}
     
     if(!playerRendered)
     {
@@ -309,10 +344,23 @@ function draw(){
     renderUI.renderScore(plyr);
     renderUI.renderHealth();
     if(onMainMenu)
-    {
+    {   
+        if (!(title_sound.isPlaying())){
+            title_sound.loop();
+        }
         renderMenu.show();
+    } else {
+        if ((title_sound.isPlaying())){
+            title_sound.stop();
+        }
     }
     image(crosshair_image, mouseX-25,mouseY-25, 50,50);
+
+    if (bgImage.saved_settings[bgImage.name].type=="calm"){
+        plyr.health+=0.1;
+
+    }
+    // image(crosshair_image, mouseX-25,mouseY-25, 50,50);
 
     
 
@@ -329,11 +377,16 @@ function mousePressed(){
     
     if (!is_phone && bgImage.saved_settings[bgImage.name].type=="hostile"){
         if (plyr.health>0){
-    bullet_sound.play();
-    cameraShake(10,30);
-    var attack = new Attack(plyr.x+60,plyr.y+20, plyr.direction, mouseX, mouseY, true);
+            
+            bullet_sound.play();
+    if (!onMainMenu){
+        bullet_sound.play();
+        cameraShake(10,30);
+        var attack = new Attack(plyr.x+60,plyr.y+20, plyr.direction, mouseX, mouseY, true);
         attacks.push(attack);
         plyr.change_frames(true);}
+    }        
+    
     }
     if(onMainMenu)
     {

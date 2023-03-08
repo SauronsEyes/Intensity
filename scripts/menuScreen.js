@@ -2,11 +2,14 @@ function MenuScreen ()
 {
     this.x = windowWidth/15,
     this.y = 200;
+    let modes = ["ENDLESS","TIME TRIAL"];
+    this.mode = modes[0];
     this.hoveredOption = -1;
     this.hoveredChar = -1;
     this.selectDifficulty = 0;
     this.charSelect = 0;
     this.difficulties = ['GENOCIDE','HOMICIDE', 'SUICIDE']
+    
     this.menuItems =
     [
         {
@@ -28,6 +31,13 @@ function MenuScreen ()
             fontSize: windowWidth/20,
             x:this.x,
             y:this.y+(windowWidth/20*3),
+            type: 0
+        },
+        {
+            text: `MODE:ENDLESS`,
+            fontSize: windowWidth/20,
+            x:this.x,
+            y:this.y+(windowWidth/20*4),
             type: 0
         }
     ]
@@ -234,6 +244,7 @@ function MenuScreen ()
             plyr.health = 100;
             plyr.score = 0;
             
+            
             var speed;
             var attack = 0.2;
             var MAX_HEALTH =5;
@@ -254,7 +265,7 @@ function MenuScreen ()
             {
                 speed = 10;
                 generateEnemy(20);
-                attack = 0.5;
+                attack = 2;
                 MAX_HEALTH = 10;
                 MIN_HEALTH = 5;
             }
@@ -283,6 +294,16 @@ function MenuScreen ()
             else
             {
                 this.selectDifficulty = 0;
+            }
+        }
+        if(this.hoveredOption == 3)
+        {   
+            if (this.menuItems[3].text=="MODE:ENDLESS") {
+            this.menuItems[3].text = "MODE:TIME TRIAL";
+            this.mode = modes[1];
+            } else {
+            this.menuItems[3].text = "MODE:ENDLESS";
+            this.mode = modes[0];
             }
         }
     }
