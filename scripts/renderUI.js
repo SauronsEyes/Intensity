@@ -12,6 +12,13 @@ function RenderUI(character)
     {
         image(this.overlayImages[0],0,0,windowWidth,windowHeight);   
     }
+    this.renderScore = function(player)
+    {
+        textSize(40);
+        textAlign(RIGHT);
+        fill(255,255,255);
+        text(`Score: ${player.score}`,0,40,windowWidth-100,50);
+    }
     this.renderHealth = function()
     {
         if(character.health <30)

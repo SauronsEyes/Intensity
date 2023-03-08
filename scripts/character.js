@@ -12,6 +12,7 @@ function Character(id=""){
     this.images_left = [];
     this.images_right = [];
     this.health = 100;
+    this.score = 0;
     this.init_images= function(path, no_of_frames){
         //place this function in the preload function
         //add a folder in the parameter the folder should have front, back,left and right sub folders

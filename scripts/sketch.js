@@ -5,11 +5,12 @@ var enemies = []; // do not change this variable
 var attacks = [];
 var health_pickups = [];
 var img=[];
+var blood_particles =[];
 var bullet_sound;
 var walk_sound;
 var frameToShow=0; //do not attempt to change this variable
 //frame to show variable will be channged in plyr.js to make the character when key is pressed
-let no_of_enemies =100;
+let no_of_enemies =60;
 let no_of_health_pickups = 10;
 let bgImage;//do not change this variaable
 let crosshair_image;
@@ -33,6 +34,8 @@ let renderMenu;
 var titleFont;
 var basicFont;
 let onMainMenu = true;
+let initialX;
+let initialY;
 // let rain_timer = parseInt(Math.random()*2000);
 function preload(){
     titleFont = loadFont('assets/font/Nos.ttf');
@@ -49,12 +52,14 @@ function preload(){
      enemy = loadImage("assets/enemy/idle/enemy (1).png"); 
      bgImage = new Map("map_main.jpg",0,0);
      bgImage.init()
+     initialX = bgImage.x;
+     initialY = bgImage.y;
      crosshair_image = loadImage("assets/crosshair.png"); 
      renderUI = new RenderUI(plyr);
      renderUI.init_images('assets/ui/');
      renderMenu = new MenuScreen();
      renderMenu.init_images();
-     generateEnemy(5);
+     generateEnemy(no_of_enemies);
      for (let i=0;i<no_of_health_pickups;i++){
         health_pickups[i] = new characterEssentials(Math.random()*4000, Math.random()*4000, "health_pack"); 
         // enemies[i].init_images();
@@ -100,17 +105,36 @@ function sortEnemy()
 function generateEnemy(number)
 {
     for (let i=0;i<number;i++){
-        let enemy = new Enemy(Math.random()*4000,Math.random()*4000); 
+        let posx = (2*Math.random() -1)*bgImage.x;
+        let posy = (2*Math.random() -1)*bgImage.y;
+
+        let enemy = new Enemy(posx,posy); 
         // enemies[i].init_images();
-        enemy.init_goblin_images("/assets/enemy/goblin",6);
+        enemy.init_goblin_images("assets/enemy/goblin",6);
         anim_enemy = new Animate(enemy.images_front, 2);
+        setTimeout(()=>{
+            enemy.renderReady = true;
+        },2000)
         enemies.push(enemy);
         animate_enemy.push(anim_enemy);
+        
      }
+     
 }
 function draw(){
     // console.log("chill");
-    
+    if(plyr.health<=0)
+    {
+        if(!onMainMenu)
+        {
+            enemies.map((enemy)=>{
+                enemy.x = (2*Math.random() -1)*bgImage.x;
+                enemy.y = (2*Math.random() -1)*bgImage.y;
+            })
+        }
+        onMainMenu = true;
+        
+    }
     connected = true;//not connecting to firebase at the moment
     // $(window).blur(function() {
     //     console.log("inactive Window")
@@ -148,7 +172,12 @@ function draw(){
     
     var edge = false;
     
-    
+    blood_particles.map((blood_particle,index)=>{
+        
+        blood_particle.showAnim();
+
+        
+    })
     if (bgImage.saved_settings[bgImage.name].enemiesCount>0)
     
     
@@ -173,15 +202,18 @@ function draw(){
             playerRendered = true;
             plyr.show(img[frameToShow],plyr.x,plyr.y);
         }  
-        
-        enemies[i].show(enemies[i].images_front[animate_enemy[i].frame()]);
-        // animate_enemy[i].display();
-        animate_enemy[i].change_frames();
-        if(!onMainMenu)
+        if(enemies[i].renderReady)
         {
-        enemies[i].move();
+            enemies[i].show(enemies[i].images_front[animate_enemy[i].frame()]);
+            // animate_enemy[i].display();
+            animate_enemy[i].change_frames();
+            if(!onMainMenu)
+            {
+            enemies[i].move();
 
+            }
         }
+        
         
     }
 
@@ -196,7 +228,7 @@ function draw(){
         bgImage.show_depth(bgImage.x,bgImage.y);
     }
     
-
+   
     
 
    for (let i=0;i<attacks.length;i++){
@@ -206,14 +238,23 @@ function draw(){
                 if (attacks[i].hits(enemies[j])){
                     enemies[j].health-=1;
                     if (enemies[j].health<1){
-                        enemies.splice(j,1);
-                        generateEnemy(1);
+                        enemies[j].health = Math.random() * (enemies[j].MAX_HEALTH - enemies[j].MIN_HEALTH) + enemies[j].MIN_HEALTH;
+                        console.log(enemies[j].health);
+                        enemies[j].x = (2*Math.random() -1)*bgImage.x;
+                        enemies[j].y = (2*Math.random() -1)*bgImage.y;
+                        plyr.score++;
                         
                     } 
                     attacks[i].evaporate();
+                    
+                    let blood = new Blood(enemies[j].x-bgImage.x,enemies[j].y-bgImage.y);
+                    blood.init_image("assets/blood",8);
+                    blood_particles.push(blood)
                 }
             }
     }
+     
+   
    for (let i=(attacks.length-1);i>=0;i--){
         if (attacks[i].toDelete){
             attacks.splice(i,1);
@@ -265,7 +306,7 @@ function draw(){
         renderUI.renderRainParticles();
         
     } 
-   
+    renderUI.renderScore(plyr);
     renderUI.renderHealth();
     if(onMainMenu)
     {
@@ -301,17 +342,17 @@ function mousePressed(){
         // console.log("attack start",plyr.x,plyr.y);
 }
 
-function mouseDragged(){
-    //for machine gun
-    // var audio = new Audio('/assets/sound/gunshot.mp3');
-    // audio.play();
-    if (plyr.health>0 && bgImage.saved_settings[bgImage.name].type=="hostile"){
-    cameraShake(10,30);
-    var attack = new Attack(plyr.x+60,plyr.y+20, plyr.direction, mouseX, mouseY, true);
-        attacks.push(attack);
-        plyr.change_frames(true);
-        console.log("attack start",plyr.x,plyr.y);
-}}
+// function mouseDragged(){
+//     //for machine gun
+//     // var audio = new Audio('assets/sound/gunshot.mp3');
+//     // audio.play();
+//     if (plyr.health>0 && bgImage.saved_settings[bgImage.name].type=="hostile"){
+//     cameraShake(10,30);
+//     var attack = new Attack(plyr.x+60,plyr.y+20, plyr.direction, mouseX, mouseY, true);
+//         attacks.push(attack);
+//         plyr.change_frames(true);
+//         console.log("attack start",plyr.x,plyr.y);
+// }}
 
 function mouseReleased(){
     

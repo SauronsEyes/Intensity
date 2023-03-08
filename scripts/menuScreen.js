@@ -231,28 +231,37 @@ function MenuScreen ()
         if(this.hoveredOption == 1)
         {
             
+            plyr.health = 100;
+            plyr.score = 0;
             
             var speed;
             var attack = 0.2;
+            var MAX_HEALTH =5;
+            var MIN_HEALTH =1;
             if(this.selectDifficulty ==0)
             {
-                speed = 1;
+                speed = 3;
             }
             else if(this.selectDifficulty == 1)
             {
-                speed = 10;
-                generateEnemy(20);
+                speed = 5;
+                generateEnemy(10);
                 attack = 0.3;
+                MAX_HEALTH = 8;
+                MIN_HEALTH = 3;
             }
             else 
             {
-                speed = 1000;
-                generateEnemy(40);
-                attack = 0.4;
+                speed = 10;
+                generateEnemy(20);
+                attack = 0.5;
+                MAX_HEALTH = 10;
+                MIN_HEALTH = 5;
             }
             enemies.map((enemy)=>{
                 enemy.movement_speed = speed;
                 enemy.damage = attack;
+                enemy.health = Math.random() * (MAX_HEALTH - MIN_HEALTH) + MIN_HEALTH
                 console.log(enemy.movement_speed)
                
             })

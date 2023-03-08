@@ -3,7 +3,7 @@ function Enemy(x,y){
     
     this.x = x;
     this.y = y;
-
+    this.renderReady=false;
     this.r=40;
     this.images=[];
     this.xDir=1;
@@ -39,7 +39,7 @@ function Enemy(x,y){
 
         for (let i=0;i<no_of_frames;i++){
             
-            this.images[i]=loadImage(`assets/enemy/idle/enemy (${i+1}).png`)
+            this.images[i]=loadImage(`assets/enemy/idle/enemy/(${i+1}).png`)
         }
         
    
