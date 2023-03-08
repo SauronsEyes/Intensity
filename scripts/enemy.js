@@ -78,10 +78,12 @@ function Enemy(x,y){
         
         if (keyIsDown(76)){ // for debug when l is pressed
             this.movement_speed = 0;
-         
+            console.log("enemy",this.x,this.y);
         // console.log("enemyV2", bgImage.x-this.x+(finalX-plyr.x), bgImage.y-this.y+((finalY-plyr.y)));
         // console.log("player", bgImage.x-plyr.x, bgImage.y-plyr.y);
-       
+        // console.log("enemyV2", bgImage.x-this.x+(finalX), bgImage.y-this.y+((finalY)));
+        // console.log("player", bgImage.x, bgImage.y);
+        // console.log("window_Width,window_height", windowWidth, windowHeight);
         plyr.health = 100;
         } else {
             this.movement_speed = speed;
