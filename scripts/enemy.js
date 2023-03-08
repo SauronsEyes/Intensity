@@ -12,8 +12,8 @@ function Enemy(x,y){
     this.mapX = this.x;
     this.mapY = this.y;
 
-    const MAX_HEALTH = 5;
-    const MIN_HEALTH = 1;
+    this.MAX_HEALTH = 5;
+    this.MIN_HEALTH = 1;
     this.damage = 1;
 
     this.images_back = [];
@@ -23,7 +23,7 @@ function Enemy(x,y){
 
     this.current_image_array = [];
 
-    this.health = Math.random() * (MAX_HEALTH - MIN_HEALTH) + MIN_HEALTH;
+    this.health = Math.random() * (this.MAX_HEALTH - this.MIN_HEALTH) + this.MIN_HEALTH;
 
     this.movement_speed = Math.random() *6 + 2;
     speed =  this.movement_speed;

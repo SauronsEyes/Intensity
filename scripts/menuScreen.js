@@ -6,7 +6,7 @@ function MenuScreen ()
     this.hoveredChar = -1;
     this.selectDifficulty = 0;
     this.charSelect = 0;
-    this.difficulties = ['ANNIHILATOR','DEAD MEAT', 'BARELY ALIVE']
+    this.difficulties = ['GENOCIDE','HOMICIDE', 'SUICIDE']
     this.menuItems =
     [
         {
@@ -258,14 +258,19 @@ function MenuScreen ()
                 MAX_HEALTH = 10;
                 MIN_HEALTH = 5;
             }
+            bgImage.x =-2300;
+            bgImage.y = -2053;
             enemies.map((enemy)=>{
                 enemy.movement_speed = speed;
                 enemy.damage = attack;
+                enemy.MAX_HEALTH = MAX_HEALTH;
+                enemy.MIN_HEALTH = MIN_HEALTH;
                 enemy.health = Math.random() * (MAX_HEALTH - MIN_HEALTH) + MIN_HEALTH
                 console.log(enemy.movement_speed)
                
             })
             console.log(speed);
+            
             onMainMenu = false;
         }
         if(this.hoveredOption == 2)
