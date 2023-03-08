@@ -100,7 +100,7 @@ function characterEssentials(x,y,pickup_type = pickups[Math.floor(Math.random() 
                 }
                 
                 this.used =  true;
-                console.log("ok");
+               
         }
     }
 

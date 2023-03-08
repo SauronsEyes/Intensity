@@ -499,7 +499,7 @@ function Map(imgname, x = 0, y = 0, width = 0, height = 0) {
             depth_image_is_there = true;
         } catch {
             depth_image_is_there = false;
-            console.log("depth IMage is not there for this map");
+            
         }
         this.other_maps.push(loadImage(`assets/maps/house.png`));
         this.other_maps_depth.push(loadImage(`assets/maps/house_depth.png`));

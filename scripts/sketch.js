@@ -46,7 +46,7 @@ function preload(){
      plyr.direction = 'r'; //.direction is needed for projectile direction when pressing space
      plyr.x=windowWidth/2;
      plyr.y=windowHeight/2;
-     console.log(windowWidth);
+     
     //  walk_sound = loadSound('assets/sound/walk.mp3');
      bullet_sound = loadSound('assets/sound/gunshot.mp3');
      enemy = loadImage("assets/enemy/idle/enemy (1).png"); 
@@ -239,7 +239,7 @@ function draw(){
                     enemies[j].health-=1;
                     if (enemies[j].health<1){
                         enemies[j].health = Math.random() * (enemies[j].MAX_HEALTH - enemies[j].MIN_HEALTH) + enemies[j].MIN_HEALTH;
-                        console.log(enemies[j].health);
+                        
                         enemies[j].x = (2*Math.random() -1)*bgImage.x;
                         enemies[j].y = (2*Math.random() -1)*bgImage.y;
                         plyr.score++;
@@ -398,12 +398,12 @@ function keyPressed(){
         collect_colliders.pop()
         if (!(collect_colliders.at(-1).w==0 && collect_colliders.at(-1).h==0)){
         bgImage.saved_settings[bgImage.name].colliders.pop();}
-        console.log(collect_colliders.at(-1));
+        
         collect_colliders.push({x:0,y:0,w:0,h:0})
     }
 
     if (key=="z"){
-        console.log(bgImage.x,bgImage.y);
+       
         
     }
     

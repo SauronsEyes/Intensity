@@ -75,7 +75,7 @@ function MenuScreen ()
     }
     else if(windowWidth<1550 && windowHeight<600)
     {
-        console.log("basdfasd")
+      
         this.charItems[0].x =500
         this.charItems[0].y = 200;
         this.charItems[1].x =500+50
@@ -174,7 +174,7 @@ function MenuScreen ()
             this.hoveredChar = -1;
         }
         
-        console.log(this.hoveredChar);
+        
         
         if(windowWidth<1550 && windowHeight>600)
         {
@@ -266,10 +266,10 @@ function MenuScreen ()
                 enemy.MAX_HEALTH = MAX_HEALTH;
                 enemy.MIN_HEALTH = MIN_HEALTH;
                 enemy.health = Math.random() * (MAX_HEALTH - MIN_HEALTH) + MIN_HEALTH
-                console.log(enemy.movement_speed)
+                
                
             })
-            console.log(speed);
+            
             
             onMainMenu = false;
         }
